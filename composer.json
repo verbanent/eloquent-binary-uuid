@@ -9,6 +9,7 @@
             "Verbanent\\Uuid\\Test\\": "tests/"
         }
     },
+    "license": "LGPL-3.0-or-later",
     "name": "verbanent/eloquent-binary-uuid",
     "description": "Package to use sorted binary UUID in Eloquent",
     "require": {
