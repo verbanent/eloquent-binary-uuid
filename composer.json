@@ -1,5 +1,16 @@
 {
+    "autoload": {
+        "psr-4": {
+            "Verbanent\\Uuid\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Verbanent\\Uuid\\Test\\": "tests/"
+        }
+    },
     "require": {
         "ramsey/uuid": "^3.8"
     }
 }
+
