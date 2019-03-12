@@ -1,1 +1,2 @@
-sonar-scanner.properties
+sonar-project.properties
+.scannerwork
