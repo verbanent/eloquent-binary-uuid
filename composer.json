@@ -1,4 +1,12 @@
 {
+    "authors": [
+        {
+            "name": "Radek Ziemniewicz",
+            "email": "radoslaw@ziemniewicz.pl",
+            "homepage": "https://ziemniewicz.eu",
+            "role": "Developer"
+        }
+    ],
     "autoload": {
         "psr-4": {
             "Verbanent\\Uuid\\": "src/"
@@ -9,8 +17,21 @@
             "Verbanent\\Uuid\\Test\\": "tests/"
         }
     },
+    "homepage": "https://github.com/verbanent/eloquent-binary-uuid",
+    "keywords": [
+        "binary",
+        "eloquent",
+        "hex",
+        "laravel",
+        "ordered",
+        "uuid"
+    ],
+    "license": "LGPL-3.0-or-later",
+    "name": "verbanent/eloquent-binary-uuid",
+    "description": "Package to use sorted binary UUID in Eloquent",
     "require": {
+        "php": "^7.3",
         "ramsey/uuid": "^3.8"
-    }
+    },
+    "type": "library"
 }
-
