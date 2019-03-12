@@ -10,7 +10,7 @@ use Verbanent\Uuid\Grammars\MySqlGrammar;
 /**
  * Service provides grammar to change UUID default column type to binary.
  */
-class UuidServiceProvider extends ServiceProvider
+class BinaryUuidServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap the application events.

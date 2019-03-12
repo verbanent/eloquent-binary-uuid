@@ -17,6 +17,13 @@
             "Verbanent\\Uuid\\Test\\": "tests/"
         }
     },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Verbanent\\Uuid\\BinaryUuidServiceProvider"
+            ]
+        }
+    },
     "homepage": "https://github.com/verbanent/eloquent-binary-uuid",
     "keywords": [
         "binary",
