@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Verbanent\Uuid\Traits;
 
+use Illuminate\Database\Eloquent\Model;
 use Ramsey\Uuid\Builder\DefaultUuidBuilder;
 use Ramsey\Uuid\Codec\OrderedTimeCodec;
 use Ramsey\Uuid\Converter\Number\BigNumberConverter;
@@ -23,6 +24,20 @@ trait BinaryUuidSupportableTrait
             $codec = new OrderedTimeCodec(new DefaultUuidBuilder(new BigNumberConverter()));
             $model->uuid = $codec->encodeBinary(Uuid::uuid4());
         });
+    }
+
+    /**
+     * Returns model by its UUID or fails.
+     *
+     * @param string $uuid
+     *
+     * @return Illuminate\Database\Eloquent\Model
+     */
+    public static function find(string $uuid): Model
+    {
+        $binaryUuid = Uuid::fromString($uuid)->getBytes();
+
+        return static::where('uuid', '=', $binaryUuid)->firstOrFail();
     }
 
     /**
