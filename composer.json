@@ -20,7 +20,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Verbanent\\Uuid\\BinaryUuidServiceProvider"
+                "Verbanent\\Uuid\\Providers\\BinaryUuidServiceProvider"
             ]
         }
     },
