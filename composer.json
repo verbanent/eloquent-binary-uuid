@@ -1,0 +1,19 @@
+{
+    "autoload": {
+        "psr-4": {
+            "Verbanent\\Uuid\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Verbanent\\Uuid\\Test\\": "tests/"
+        }
+    },
+    "name": "verbanent/eloquent-binary-uuid",
+    "description": "Package to use sorted binary UUID in Eloquent",
+    "require": {
+        "php": "^7.3",
+        "ramsey/uuid": "^3.8"
+    }
+}
+
