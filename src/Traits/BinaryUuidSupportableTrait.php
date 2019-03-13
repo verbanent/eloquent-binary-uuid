@@ -26,11 +26,14 @@ trait BinaryUuidSupportableTrait
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
+
         $this->uuid = $this->generateUuid();
     }
 
     /**
-     * Returns time ordered binary UUID.
+     * Returns time ordered binary UUID version 1, because it's the only version can be time-ordered.
+     *
+     * @see https://github.com/ramsey/uuid-doctrine/blob/master/src/UuidBinaryOrderedTimeType.php#L151
      *
      * @return string
      *
@@ -40,7 +43,7 @@ trait BinaryUuidSupportableTrait
     {
         $codec = new OrderedTimeCodec(new DefaultUuidBuilder(new BigNumberConverter()));
 
-        return $codec->encodeBinary(Uuid::uuid4());
+        return $codec->encodeBinary(Uuid::uuid1());
     }
 
     /**
