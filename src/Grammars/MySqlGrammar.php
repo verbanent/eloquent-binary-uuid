@@ -19,7 +19,7 @@ class MySqlGrammar extends IlluminateMySqlGrammar
      *
      * @return string
      */
-    protected function typeUuid(Fluent $column)
+    protected function typeUuid(Fluent $column): string
     {
         return 'binary(16)';
     }
