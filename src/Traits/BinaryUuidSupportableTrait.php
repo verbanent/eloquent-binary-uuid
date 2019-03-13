@@ -16,13 +16,43 @@ use Ramsey\Uuid\Uuid;
 trait BinaryUuidSupportableTrait
 {
     /**
-     * Method for Laravel's bootable Eloquent traits, genereates UUID for every model automatically.
+     * Construct is used here, because it's nice to have UUID just after creating the object,
+     * and even before writing to the database.
+     *
+     * @param array $attributes
+     *
+     * @throws \Exception
      */
-    public static function bootBinaryUuidSupportableTrait()
+    public function __construct(array $attributes = [])
     {
-        static::saving(function ($model) {
-            $codec = new OrderedTimeCodec(new DefaultUuidBuilder(new BigNumberConverter()));
-            $model->uuid = $codec->encodeBinary(Uuid::uuid4());
+        parent::__construct($attributes);
+        $this->uuid = $this->generateUuid();
+    }
+
+    /**
+     * Returns time ordered binary UUID.
+     *
+     * @return string
+     *
+     * @throws \Exception
+     */
+    private function generateUuid(): string
+    {
+        $codec = new OrderedTimeCodec(new DefaultUuidBuilder(new BigNumberConverter()));
+
+        return $codec->encodeBinary(Uuid::uuid4());
+    }
+
+    /**
+     * Method for Laravel's bootable Eloquent traits, genereates UUID for every model automatically,
+     * just in case if construct method will be overwritten in a model class.
+     */
+    public static function bootBinaryUuidSupportableTrait(): void
+    {
+        static::saving(function(Model $model) {
+            if (!isset($model->uuid) || empty($model->uuid)) {
+                $model->uuid = $model->generateUuid();
+            }
         });
     }
 
@@ -31,7 +61,7 @@ trait BinaryUuidSupportableTrait
      *
      * @param string $uuid
      *
-     * @return Illuminate\Database\Eloquent\Model
+     * @return \Illuminate\Database\Eloquent\Model
      */
     public static function find(string $uuid): Model
     {
