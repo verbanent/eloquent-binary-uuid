@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Verbanent\Uuid\Test\Providers;
 
 use Illuminate\Contracts\Foundation\Application;
