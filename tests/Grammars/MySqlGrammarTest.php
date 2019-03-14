@@ -17,9 +17,9 @@ class MySqlGrammarTest extends TestCase
      *
      * @param string $name
      *
-     * @return \ReflectionMethod
-     *
      * @throws \ReflectionException
+     *
+     * @return \ReflectionMethod
      */
     protected static function getMethod(string $name): \ReflectionMethod
     {
@@ -41,7 +41,7 @@ class MySqlGrammarTest extends TestCase
         $typeUuid = self::getMethod('typeUuid');
         $uuidMySqlType = $typeUuid->invokeArgs($mySqlGrammar, [new \Illuminate\Support\Fluent()]);
 
-        $this->assertIsString($uuidMySqlType, 'Got ' . gettype($uuidMySqlType) . ' instead of string');
-        $this->assertEquals('binary(16)', $uuidMySqlType, 'Got ' . $uuidMySqlType . ' instead of \'binary(16)\'');
+        $this->assertIsString($uuidMySqlType, 'Got '.gettype($uuidMySqlType).' instead of string');
+        $this->assertEquals('binary(16)', $uuidMySqlType, 'Got '.$uuidMySqlType.' instead of \'binary(16)\'');
     }
 }

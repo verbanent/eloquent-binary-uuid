@@ -35,9 +35,9 @@ trait BinaryUuidSupportableTrait
      *
      * @see https://github.com/ramsey/uuid-doctrine/blob/master/src/UuidBinaryOrderedTimeType.php#L151
      *
-     * @return string
-     *
      * @throws \Exception
+     *
+     * @return string
      */
     private function generateUuid(): string
     {
@@ -52,7 +52,7 @@ trait BinaryUuidSupportableTrait
      */
     public static function bootBinaryUuidSupportableTrait(): void
     {
-        static::saving(function(Model $model) {
+        static::saving(function (Model $model) {
             if (!isset($model->uuid) || empty($model->uuid)) {
                 $model->uuid = $model->generateUuid();
             }
