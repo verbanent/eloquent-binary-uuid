@@ -2,11 +2,11 @@
 
 namespace Verbanent\Uuid\Test\Providers;
 
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Database\MySqlConnection;
+use Illuminate\Support\Facades\DB;
 use Mockery;
 use PHPUnit\Framework\TestCase;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Database\MySqlConnection;
-use Illuminate\Contracts\Foundation\Application;
 use Verbanent\Uuid\Providers\BinaryUuidServiceProvider;
 
 class BinaryUuidServiceProviderTest extends TestCase
@@ -20,7 +20,7 @@ class BinaryUuidServiceProviderTest extends TestCase
 
     public function setUp(): void
     {
-        $dbMock= Mockery::mock('overload:' . DB::class);
+        $dbMock= Mockery::mock('overload:'.DB::class);
         $dbMock->shouldReceive(['connection' => new MySqlConnection('')]);
 
         $app = Mockery::mock(Application::class);
