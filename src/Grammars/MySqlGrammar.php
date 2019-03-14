@@ -15,7 +15,7 @@ class MySqlGrammar extends IlluminateMySqlGrammar
     /**
      * Create the column definition for a uuid type.
      *
-     * @param Illuminate\Support\Fluent
+     * @param \Illuminate\Support\Fluent
      *
      * @return string
      */
