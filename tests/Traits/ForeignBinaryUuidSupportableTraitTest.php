@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Verbanent\Uuid\Test\Traits;
 
-use Ramsey\Uuid\Uuid;
-use PHPUnit\Framework\TestCase;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Capsule\Manager as Capsule;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
+use PHPUnit\Framework\TestCase;
+use Ramsey\Uuid\Uuid;
 use Verbanent\Uuid\Traits\ForeignBinaryUuidSupportableTrait;
 
 class ForeignBinaryUuidSupportableTraitTest extends TestCase
@@ -20,7 +20,7 @@ class ForeignBinaryUuidSupportableTraitTest extends TestCase
     public function setUp(): void
     {
         $this->binaryUuid = Uuid::fromString($this->uuid)->getBytes();
-        $capsule = new Capsule;
+        $capsule = new Capsule();
         $capsule->addConnection([
             'driver'    => 'sqlite',
             'database'  => ':memory:',
@@ -35,7 +35,7 @@ class ForeignBinaryUuidSupportableTraitTest extends TestCase
             protected $fillable = ['uuid'];
         };
 
-        Capsule::schema()->create('model_test', function($table) {
+        Capsule::schema()->create('model_test', function ($table) {
             $table->uuid('uuid');
         });
     }
