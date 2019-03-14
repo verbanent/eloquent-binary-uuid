@@ -1,5 +1,6 @@
 .DS_Store
 clover.xml
+coverage
 .phpunit.result.cache
 .idea
 .scannerwork
