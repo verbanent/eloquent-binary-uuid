@@ -29,4 +29,11 @@ class BinaryUuidSupportableTraitTest extends SetUpTrait
         $this->assertNotEmpty($this->model->find($model->uuid()));
         $this->assertEquals($model->uuid(), $this->model->find($model->uuid())->uuid());
     }
+
+    public function testResetUuid()
+    {
+        $model = new $this->model();
+        $model->uuid = null;
+        $this->assertNull($model->uuid);
+    }
 }
