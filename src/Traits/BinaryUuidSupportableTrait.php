@@ -16,21 +16,6 @@ use Ramsey\Uuid\Uuid;
 trait BinaryUuidSupportableTrait
 {
     /**
-     * Construct is used here, because it's nice to have UUID just after creating the object,
-     * and even before writing to the database.
-     *
-     * @param array $attributes
-     *
-     * @throws \Exception
-     */
-    public function __construct(array $attributes = [])
-    {
-        parent::__construct($attributes);
-
-        $this->uuid = $this->generateUuid();
-    }
-
-    /**
      * Returns time ordered binary UUID version 1, because it's the only version can be time-ordered.
      *
      * @see https://github.com/ramsey/uuid-doctrine/blob/master/src/UuidBinaryOrderedTimeType.php#L151
@@ -47,15 +32,12 @@ trait BinaryUuidSupportableTrait
     }
 
     /**
-     * Method for Laravel's bootable Eloquent traits, genereates UUID for every model automatically,
-     * just in case if construct method will be overwritten in a model class.
+     * Method for Laravel's bootable Eloquent traits, genereates UUID for every model automatically.
      */
     public static function bootBinaryUuidSupportableTrait(): void
     {
         static::saving(function (Model $model) {
-            if (!isset($model->uuid) || empty($model->uuid)) {
-                $model->uuid = $model->generateUuid();
-            }
+            $model->uuid = $model->generateUuid();
         });
     }
 
