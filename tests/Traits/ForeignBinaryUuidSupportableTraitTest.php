@@ -6,7 +6,7 @@ namespace Verbanent\Uuid\Test\Traits;
 
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
-USE Verbanent\Uuid\Test\SetUpTrait;
+use Verbanent\Uuid\Test\SetUpTrait;
 use Verbanent\Uuid\Traits\ForeignBinaryUuidSupportableTrait;
 
 class ForeignBinaryUuidSupportableTraitTest extends SetUpTrait

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Verbanent\Uuid\Test\Traits;
 
 use Illuminate\Database\Eloquent\Model;
-USE Verbanent\Uuid\Test\SetUpTrait;
+use Verbanent\Uuid\Test\SetUpTrait;
 use Verbanent\Uuid\Traits\BinaryUuidSupportableTrait;
 
 class BinaryUuidSupportableTraitTest extends SetUpTrait

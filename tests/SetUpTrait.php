@@ -18,8 +18,8 @@ class SetUpTrait extends TestCase
     {
         $capsule = new Capsule();
         $capsule->addConnection([
-            'driver'    => 'sqlite',
-            'database'  => ':memory:',
+            'driver' => 'sqlite',
+            'database' => ':memory:',
         ]);
         $capsule->setAsGlobal();
         $capsule->bootEloquent();
