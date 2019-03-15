@@ -22,10 +22,11 @@ class BinaryUuidServiceProviderTest extends TestCase
 
     public function setUp(): void
     {
-        $dbMock = Mockery::mock('overload:'.DB::class);
-        $dbMock->shouldReceive(['connection' => new MySqlConnection('')]);
+        Mockery::mock('overload:'.DB::class)
+            ->shouldReceive(['connection' => new MySqlConnection('')]);
 
         $app = Mockery::mock(Application::class);
+
         $this->binaryUuidServiceProvider = new BinaryUuidServiceProvider($app);
     }
 
