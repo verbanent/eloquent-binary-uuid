@@ -36,7 +36,7 @@ trait BinaryUuidSupportableTrait
      */
     public static function bootBinaryUuidSupportableTrait(): void
     {
-        static::saving(function (Model $model) {
+        static::creating(function (Model $model) {
             $model->uuid = $model->generateUuid();
         });
     }
