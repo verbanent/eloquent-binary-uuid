@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Verbanent\Uuid\Test;
 
+use Illuminate\Container\Container;
 use Illuminate\Database\Capsule\Manager as Capsule;
 use Illuminate\Events\Dispatcher;
-use Illuminate\Container\Container;
 use PHPUnit\Framework\TestCase;
 use Ramsey\Uuid\Uuid;
 
@@ -23,7 +23,7 @@ class SetUpTrait extends TestCase
             'driver'   => 'sqlite',
             'database' => ':memory:',
         ]);
-        $capsule->setEventDispatcher(new Dispatcher(new Container));
+        $capsule->setEventDispatcher(new Dispatcher(new Container()));
         $capsule->setAsGlobal();
         $capsule->bootEloquent();
 
