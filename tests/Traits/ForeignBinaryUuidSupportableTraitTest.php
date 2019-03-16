@@ -66,7 +66,7 @@ class ForeignBinaryUuidSupportableTraitTest extends SetUpTrait
     public function testCreatingModel()
     {
         $this->model::create([
-            'uuid' => $this->uuid,
+            'uuid'        => $this->uuid,
             'foreignUuid' => $this->binaryUuid,
         ]);
 
