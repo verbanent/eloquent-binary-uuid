@@ -29,8 +29,15 @@ class SetUpTrait extends TestCase
 
         Capsule::schema()->create('model_test', function ($table) {
             $table->uuid('uuid');
+            $table->primary('uuid');
+            $table->uuid('foreignUuid')->nullable();
         });
 
         $this->binaryUuid = Uuid::fromString($this->uuid)->getBytes();
+    }
+
+    public function tearDown(): void
+    {
+        Capsule::schema()->dropAllTables();
     }
 }
