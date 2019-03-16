@@ -115,8 +115,8 @@ For foreign keys finding rows requires a column name and returns collection of m
 $langTranslation = LangTranslation::findByUuid('lang', '11e947f9-a1bd-f844-88d8-6030d483c5fe');
 dd($langTranslation[0]->uuid(), $langTranslation[1]->uuid(), $langTranslation[2]->uuid());
 // Output: "11e94805-b94c-68e0-8720-6030d483c5fe"
-           "11e94805-b955-4e2e-b089-6030d483c5fe"
-           "11e94805-b957-af02-8bf8-6030d483c5fe"
+//         "11e94805-b955-4e2e-b089-6030d483c5fe"
+//         "11e94805-b957-af02-8bf8-6030d483c5fe"
 ```
 
 ### Getting a foreign UUID string
