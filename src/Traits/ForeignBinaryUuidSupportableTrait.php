@@ -40,4 +40,16 @@ trait ForeignBinaryUuidSupportableTrait
 
         return static::where($columnName, '=', $binaryUuid)->get();
     }
+
+    /**
+     * Returns string form of UUID from foreign column.
+     *
+     * @param string $columnName
+     *
+     * @return string
+     */
+    public function foreignUuid(string $columnName): string
+    {
+        return Uuid::fromBytes($this->$columnName)->toString();
+    }
 }

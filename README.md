@@ -87,13 +87,51 @@ The library is kept as simple as possible, so if you want to get a string form o
 $book = new \App\Book;
 $book->save();
 dd($book->uuid());
-// Output: 11e947f9-a1bd-f844-88d8-6030d483c5fe
+// Output: "11e947f9-a1bd-f844-88d8-6030d483c5fe"
 ```
 
 or use a property, if you need a binary value:
 
 ```php
 dd($book->uuid);
-// Output: �G��D��`0ԃ��
+// Output: b"\x11éGù¡½øDˆØ`0ÔƒÅþ"
 ```
 
+### Finding by primary UUID
+
+For primary keys finding rows is simple and always return a model:
+
+```php
+$lang = Lang::find('11e947f9-a1bd-f844-88d8-6030d483c5fe);
+dd($lang->uuid());
+// Output: "11e947f9-a1bd-f844-88d8-6030d483c5fe"
+```
+
+### Finding by foreign UUID
+
+For foreign keys finding rows requires a column name and returns collection of model:
+
+```php
+$langTranslation = LangTranslation::findByUuid('lang', '11e947f9-a1bd-f844-88d8-6030d483c5fe');
+dd($langTranslation[0]->uuid(), $langTranslation[1]->uuid(), $langTranslation[2]->uuid());
+// Output: "11e94805-b94c-68e0-8720-6030d483c5fe"
+           "11e94805-b955-4e2e-b089-6030d483c5fe"
+           "11e94805-b957-af02-8bf8-6030d483c5fe"
+```
+
+### Getting a foreign UUID string
+
+You can print string form of your foreign UUID keys:
+
+```php
+$translation = LangTranslation::findByUuid('lang', '11e947f9-a1bd-f844-88d8-6030d483c5fe')->first();
+dd($translation->foreignUuid('lang'));
+// Output: "11e947f9-a1bd-f844-88d8-6030d483c5fe"
+```
+
+Because trying to have an access to the property directly will print binary form of UUID: 
+
+```php
+dd($translation->lang);
+// Output: b"\x11éGù¡½øDˆØ`0ÔƒÅþ"
+```
