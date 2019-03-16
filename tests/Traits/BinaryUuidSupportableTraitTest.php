@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Verbanent\Uuid\Test\Traits;
 
-use Illuminate\Database\Eloquent\Model;
+use Verbanent\Uuid\AbstractModel;
 use Verbanent\Uuid\Test\SetUpTrait;
 use Verbanent\Uuid\Traits\BinaryUuidSupportableTrait;
 
@@ -14,11 +14,10 @@ class BinaryUuidSupportableTraitTest extends SetUpTrait
     {
         parent::setUp();
 
-        $this->model = new class() extends Model {
+        $this->model = new class() extends AbstractModel {
             use BinaryUuidSupportableTrait;
             protected $table = 'model_test';
             public $timestamps = false;
-            protected $fillable = ['uuid'];
         };
     }
 
@@ -35,5 +34,16 @@ class BinaryUuidSupportableTraitTest extends SetUpTrait
         $model = new $this->model();
         $model->uuid = null;
         $this->assertNull($model->uuid);
+    }
+
+    public function testSetOwnUuid()
+    {
+        $uuid = 'f326aa08-47e7-11e9-8f58-f3ba25528813';
+        $model = new $this->model([
+            'uuid' => $uuid,
+        ]);
+        $this->assertEquals($uuid, $model->uuid);
+        $model->save();
+        $this->assertEquals($uuid, $model->uuid);
     }
 }

@@ -31,4 +31,11 @@ class AbstractModel extends Model
      * @var string
      */
     protected $primaryKey = 'uuid';
+
+    /**
+     * Allow to fill UUID column.
+     *
+     * @var array
+     */
+    protected $fillable = ['uuid'];
 }
