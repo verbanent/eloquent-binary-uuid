@@ -47,6 +47,38 @@ class Book extends Model
 }
 ```
 
+#### Abstract model for model with UUID
+
+For your convenience you can extend your model with _AbstractModel_:
+
+```php
+use Verbanent\Uuid\AbstractModel;
+
+class Lang extends AbstractModel
+{
+
+}
+```
+
+#### Foreign binary UUID
+
+If you would like to use UUID as a foreign key, use another trait and set _$uuidable_ property for this model:
+
+```php
+use Verbanent\Uuid\AbstractModel;
+use Verbanent\Uuid\Traits\ForeignBinaryUuidSupportableTrait;
+
+class LangTranslation extends AbstractModel
+{
+    use ForeignBinaryUuidSupportableTrait;
+
+    private $uuidable = [
+        'lang',
+        'one_lang_bucket',
+    ];
+}
+```
+
 ### Getting a string form of UUID
 
 The library is kept as simple as possible, so if you want to get a string form of UUID, just use a method:
@@ -55,11 +87,13 @@ The library is kept as simple as possible, so if you want to get a string form o
 $book = new \App\Book;
 $book->save();
 dd($book->uuid());
+// Output: 11e947f9-a1bd-f844-88d8-6030d483c5fe
 ```
 
 or use a property, if you need a binary value:
 
 ```php
 dd($book->uuid);
+// Output: �G��D��`0ԃ��
 ```
 
