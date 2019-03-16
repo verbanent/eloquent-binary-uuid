@@ -32,7 +32,7 @@ trait BinaryUuidSupportableTrait
     }
 
     /**
-     * Method for Laravel's bootable Eloquent traits, genereates UUID for every model automatically.
+     * Method for Laravel's bootable Eloquent traits, generates UUID for every model automatically.
      */
     public static function bootBinaryUuidSupportableTrait(): void
     {
