@@ -5,12 +5,15 @@ declare(strict_types=1);
 namespace Verbanent\Uuid;
 
 use Illuminate\Database\Eloquent\Model;
+use Verbanent\Uuid\Traits\BinaryUuidSupportableTrait;
 
 /**
  * Class can be used as parent for all model class using UUID binary primary keys.
  */
 class AbstractModel extends Model
 {
+    use BinaryUuidSupportableTrait;
+
     /**
      * Disable incrementing of ID column.
      *
