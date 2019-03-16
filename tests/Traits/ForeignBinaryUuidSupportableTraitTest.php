@@ -6,6 +6,7 @@ namespace Verbanent\Uuid\Test\Traits;
 
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Verbanent\Uuid\AbstractModel;
 use Verbanent\Uuid\Test\SetUpTrait;
 use Verbanent\Uuid\Traits\ForeignBinaryUuidSupportableTrait;
 
@@ -15,11 +16,12 @@ class ForeignBinaryUuidSupportableTraitTest extends SetUpTrait
     {
         parent::setUp();
 
-        $this->model = new class() extends Model {
+        $this->model = new class() extends AbstractModel {
             use ForeignBinaryUuidSupportableTrait;
             protected $table = 'model_test';
             public $timestamps = false;
-            protected $fillable = ['uuid'];
+            protected $fillable = ['uuid', 'foreignUuid'];
+            private $uuidable = ['foreignUuid'];
         };
     }
 
@@ -54,10 +56,23 @@ class ForeignBinaryUuidSupportableTraitTest extends SetUpTrait
 
     public function testManyInTable()
     {
-        $this->model::create(['uuid' => $this->binaryUuid]);
-        $this->model::create(['uuid' => $this->binaryUuid]);
-        $this->model::create(['uuid' => $this->binaryUuid]);
+        $this->model::create(['uuid' => $this->model->generateUuid()]);
+        $this->model::create(['uuid' => $this->model->generateUuid()]);
+        $this->model::create(['uuid' => $this->model->generateUuid()]);
 
-        $this->assertEquals(3, count($this->model->findByUuid('uuid', $this->uuid)));
+        $this->assertEquals(3, count($this->model::all()));
+    }
+
+    public function testCreatingModel()
+    {
+        $this->model::create([
+            'uuid' => $this->uuid,
+            'foreignUuid' => $this->binaryUuid,
+        ]);
+
+        $foundCollection = $this->model::findByUuid('foreignUuid', $this->uuid);
+        $this->assertTrue($foundCollection instanceof Collection);
+        $this->assertEquals(1, count($foundCollection));
+        $this->assertEquals($this->uuid, $foundCollection[0]->foreignUuid('foreignUuid'));
     }
 }

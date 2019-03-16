@@ -24,7 +24,7 @@ trait BinaryUuidSupportableTrait
      *
      * @return string
      */
-    private function generateUuid(): string
+    public function generateUuid(): string
     {
         $codec = new OrderedTimeCodec(new DefaultUuidBuilder(new BigNumberConverter()));
 
