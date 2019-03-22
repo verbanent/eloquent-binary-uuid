@@ -37,10 +37,12 @@ trait BinaryUuidSupportableTrait
     public static function bootBinaryUuidSupportableTrait(): void
     {
         static::creating(function (Model $model) {
-            if (isset($model->attributes['uuid']) && !empty($model->attributes['uuid']) && is_string($model->attributes['uuid'])) {
-                $model->uuid = Uuid::fromString($model->attributes['uuid'])->getBytes();
-            } else {
+            if (!isset($model->attributes['uuid'])) {
                 $model->uuid = $model->generateUuid();
+            } elseif(is_string($model->attributes['uuid']) && strlen($model->attributes['uuid']) <> 16) {
+                $model->uuid = Uuid::fromString($model->attributes['uuid'])->getBytes();
+            } elseif(is_string($model->attributes['uuid']) && strlen($model->attributes['uuid']) === 16) {
+                $model->uuid = $model->attributes['uuid'];
             }
         });
     }
