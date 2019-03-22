@@ -19,9 +19,23 @@ trait ForeignBinaryUuidSupportableTrait
     public static function bootForeignBinaryUuidSupportableTrait(): void
     {
         static::creating(function (Model $model) {
-            foreach ($model->uuidable as $uuidable) {
-                if (isset($model->attributes[$uuidable]) && !empty($model->attributes[$uuidable]) && is_string($model->attributes[$uuidable])) {
-                    $model->attributes[$uuidable] = Uuid::fromString($model->attributes[$uuidable])->getBytes();
+            if (is_array($model->uuidable)) {
+                foreach ($model->uuidable as $uuidable) {
+                    if (!isset($model->attributes[$uuidable])) {
+                        continue;
+                    }
+
+                    if (!is_string($model->attributes[$uuidable])) {
+                        continue;
+                    }
+
+                    if (strlen($model->attributes[$uuidable]) != 16) {
+                        $model->$uuidable = Uuid::fromString($model->attributes[$uuidable])->getBytes();
+                    }
+
+                    if (strlen($model->attributes[$uuidable]) === 16) {
+                        $model->$uuidable = $model->attributes[$uuidable];
+                    }
                 }
             }
         });
