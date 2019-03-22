@@ -14,7 +14,6 @@ class SetUpTrait extends TestCase
 {
     protected $uuid = '11e9469d-b942-b7e6-bc69-8df4f180e5a9';
     protected $binaryUuid;
-    protected $model;
 
     public function setUp(): void
     {
@@ -31,6 +30,7 @@ class SetUpTrait extends TestCase
             $table->uuid('uuid');
             $table->primary('uuid');
             $table->uuid('foreignUuid')->nullable();
+            $table->integer('nonString')->nullable();
         });
 
         $this->binaryUuid = Uuid::fromString($this->uuid)->getBytes();
