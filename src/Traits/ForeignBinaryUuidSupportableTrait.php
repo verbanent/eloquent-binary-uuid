@@ -21,7 +21,7 @@ trait ForeignBinaryUuidSupportableTrait
         static::creating(function (Model $model) {
             if (is_array($model->uuidable)) {
                 foreach ($model->uuidable as $uuidable) {
-                    if(!isset($model->attributes[$uuidable])) {
+                    if (!isset($model->attributes[$uuidable])) {
                         continue;
                     }
 
@@ -29,7 +29,7 @@ trait ForeignBinaryUuidSupportableTrait
                         continue;
                     }
 
-                    if (strlen($model->attributes[$uuidable]) <> 16) {
+                    if (strlen($model->attributes[$uuidable]) != 16) {
                         $model->$uuidable = Uuid::fromString($model->attributes[$uuidable])->getBytes();
                     }
 

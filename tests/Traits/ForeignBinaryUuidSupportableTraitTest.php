@@ -27,9 +27,9 @@ class ForeignBinaryUuidSupportableTraitTest extends SetUpTrait
     public function testCreatingModelWithStringForeignUuid()
     {
         $duck = new DuckModel();
-        $duck->uuid        = $this->uuid;
+        $duck->uuid = $this->uuid;
         $duck->foreignUuid = $this->uuid;
-        $duck->nonString   = 3;
+        $duck->nonString = 3;
         $duck->save();
 
         $foundCollection = DuckModel::findByUuid('foreignUuid', $this->uuid);

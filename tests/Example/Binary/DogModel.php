@@ -11,5 +11,4 @@ use Verbanent\Uuid\Test\Example\AbstractExampleModel;
  */
 class DogModel extends AbstractExampleModel
 {
-
 }
