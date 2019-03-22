@@ -101,7 +101,7 @@ dd($book->uuid);
 For primary keys finding rows is simple and always return a model:
 
 ```php
-$lang = Lang::find('11e947f9-a1bd-f844-88d8-6030d483c5fe);
+$lang = Lang::find('11e947f9-a1bd-f844-88d8-6030d483c5fe');
 dd($lang->uuid());
 // Output: "11e947f9-a1bd-f844-88d8-6030d483c5fe"
 ```
