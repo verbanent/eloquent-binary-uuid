@@ -4,46 +4,35 @@ declare(strict_types=1);
 
 namespace Verbanent\Uuid\Test\Traits;
 
-use Verbanent\Uuid\AbstractModel;
+use Verbanent\Uuid\Test\Example\Binary\CatModel;
+use Verbanent\Uuid\Test\Example\Binary\CowModel;
+use Verbanent\Uuid\Test\Example\Binary\DogModel;
 use Verbanent\Uuid\Test\SetUpTrait;
-use Verbanent\Uuid\Traits\BinaryUuidSupportableTrait;
 
 class BinaryUuidSupportableTraitTest extends SetUpTrait
 {
-    public function setUp(): void
-    {
-        parent::setUp();
-
-        $this->model = new class() extends AbstractModel {
-            use BinaryUuidSupportableTrait;
-            protected $table = 'model_test';
-            public $timestamps = false;
-        };
-    }
-
     public function testNotEmptyTable()
     {
-        $model = new $this->model();
-        $model->save();
-        $this->assertNotEmpty($this->model->find($model->uuid()));
-        $this->assertEquals($model->uuid(), $this->model->find($model->uuid())->uuid());
+        $cat = new CatModel();
+        $cat->save();
+        $uuid = $cat->uuid();
+        $this->assertNotEmpty($cat->uuid());
+        $this->assertEquals($uuid, $cat->find($uuid)->uuid());
     }
 
-    public function testResetUuid()
+    public function testSetOwnUuidAsProperty()
     {
-        $model = new $this->model();
-        $model->uuid = null;
-        $this->assertNull($model->uuid);
+        $dog = new DogModel();
+        $dog->uuid = $this->uuid;
+        $dog->save();
+        $this->assertEquals($this->uuid, $dog->uuid());
     }
 
-    public function testSetOwnUuid()
+    public function testSetOwnBinaryUuidAsProperty()
     {
-        $uuid = 'f326aa08-47e7-11e9-8f58-f3ba25528813';
-        $model = new $this->model([
-            'uuid' => $uuid,
-        ]);
-        $this->assertEquals($uuid, $model->uuid);
-        $model->save();
-        $this->assertEquals($uuid, $model->uuid);
+        $cow = new CowModel();
+        $cow->uuid = $this->binaryUuid;
+        $cow->save();
+        $this->assertEquals($this->uuid, $cow->uuid());
     }
 }
