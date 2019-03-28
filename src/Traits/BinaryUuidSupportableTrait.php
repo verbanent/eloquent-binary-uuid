@@ -25,8 +25,10 @@ trait BinaryUuidSupportableTrait
      */
     public static function firstOrCreate(array $attributes, array $values = []): Model
     {
-        if (isset($attributes['uuid']) && strlen($attributes['uuid']) != 16) {
-            $attributes['uuid'] = Uuid::fromString($attributes['uuid'])->getBytes();
+        foreach ($attributes as $key => $attribute) {
+            if (Uuid::isValid($attribute)) {
+                $attributes[$key] = Uuid::fromString($attribute)->getBytes();
+            }
         }
 
         $instance = static::where($attributes)->first();
@@ -64,7 +66,7 @@ trait BinaryUuidSupportableTrait
         static::creating(function (Model $model) {
             if (!isset($model->attributes['uuid'])) {
                 $model->uuid = $model->generateUuid();
-            } elseif (is_string($model->attributes['uuid']) && strlen($model->attributes['uuid']) != 16) {
+            } elseif (Uuid::isValid($model->attributes['uuid'])) {
                 $model->uuid = Uuid::fromString($model->attributes['uuid'])->getBytes();
             } elseif (is_string($model->attributes['uuid']) && strlen($model->attributes['uuid']) === 16) {
                 $model->uuid = $model->attributes['uuid'];
