@@ -35,4 +35,11 @@ class BinaryUuidSupportableTraitTest extends SetUpTrait
         $cow->save();
         $this->assertEquals($this->uuid, $cow->uuid());
     }
+
+    public function testFirstOrCreate()
+    {
+        $cow = CowModel::firstOrCreate(['uuid' => $this->uuid]);
+        $this->assertNotEmpty($cow->uuid());
+        $this->assertEquals($this->uuid, $cow->uuid());
+    }
 }
