@@ -16,7 +16,31 @@ use Ramsey\Uuid\Uuid;
 trait BinaryUuidSupportableTrait
 {
     /**
-     * Returns time ordered binary UUID version 1, because it's the only version can be time-ordered.
+     * Creates new instance if it doesn't exist or returns existing one.
+     *
+     * @param array $attributes
+     * @param array $values
+     *
+     * @return \Illuminate\Database\Eloquent\Model
+     */
+    public static function firstOrCreate(array $attributes, array $values = []): Model
+    {
+        if (isset($attributes['uuid']) && strlen($attributes['uuid']) != 16) {
+            $attributes['uuid'] = Uuid::fromString($attributes['uuid'])->getBytes();
+        }
+
+        $instance = static::where($attributes)->first();
+
+        if ($instance === null) {
+            $instance = static::create($attributes + $values);
+        }
+
+        return $instance;
+    }
+
+    /**
+     * Returns time ordered binary UUID version 1, because it's the only version
+     * can be time-ordered.
      *
      * @see https://github.com/ramsey/uuid-doctrine/blob/master/src/UuidBinaryOrderedTimeType.php#L151
      *
@@ -32,7 +56,8 @@ trait BinaryUuidSupportableTrait
     }
 
     /**
-     * Method for Laravel's bootable Eloquent traits, generates UUID for every model automatically.
+     * Method for Laravel's bootable Eloquent traits, generates UUID for every
+     * model automatically.
      */
     public static function bootBinaryUuidSupportableTrait(): void
     {
