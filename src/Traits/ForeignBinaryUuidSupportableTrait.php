@@ -29,7 +29,7 @@ trait ForeignBinaryUuidSupportableTrait
                         continue;
                     }
 
-                    if (strlen($model->attributes[$uuidable]) != 16) {
+                    if (Uuid::isValid($model->attributes[$uuidable])) {
                         $model->$uuidable = Uuid::fromString($model->attributes[$uuidable])->getBytes();
                     }
 
