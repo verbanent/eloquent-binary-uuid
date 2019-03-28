@@ -29,7 +29,9 @@ trait BinaryUuidSupportableTrait
             $attributes['uuid'] = Uuid::fromString($attributes['uuid'])->getBytes();
         }
 
-        if (is_null($instance = static::where($attributes)->first())) {
+        $instance = static::where($attributes)->first();
+
+        if ($instance === null) {
             $instance = static::create($attributes + $values);
         }
 
