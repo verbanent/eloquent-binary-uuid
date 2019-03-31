@@ -91,10 +91,16 @@ trait BinaryUuidSupportableTrait
     /**
      * Returns string form of UUID.
      *
+     * @throws \Exception
+     *
      * @return string
      */
     public function uuid(): string
     {
+        if (!isset($this->uuid)) {
+            $this->uuid = $this->generateUuid();
+        }
+
         return Uuid::fromBytes($this->uuid)->toString();
     }
 }
