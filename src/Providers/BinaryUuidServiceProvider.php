@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Verbanent\Uuid\Providers;
 
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
 use Verbanent\Uuid\Grammars\MySqlGrammar;
 
@@ -18,6 +17,16 @@ class BinaryUuidServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        DB::connection()->setSchemaGrammar(new MySqlGrammar());
+        $connection = app('db')->connection();
+        $connection->setSchemaGrammar($this->createGrammar($connection));
+    }
+
+    private function createGrammar($connection): MySqlGrammar
+    {
+        $queryGrammar = $connection->getQueryGrammar();
+        $grammar = new MySqlGrammar();
+        $grammar->setTablePrefix($queryGrammar->getTablePrefix());
+
+        return $grammar;
     }
 }
