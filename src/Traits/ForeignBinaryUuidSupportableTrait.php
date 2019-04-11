@@ -44,7 +44,7 @@ trait ForeignBinaryUuidSupportableTrait
     /**
      * Set readable UUID in model if necessary.
      *
-     * @param Model $model
+     * @param Model  $model
      * @param string $uuidable
      */
     private static function setReadableUuid(Model &$model, string $uuidable): void
@@ -53,13 +53,14 @@ trait ForeignBinaryUuidSupportableTrait
             return;
         }
 
-        $model->readable_{$uuidable} = $model->foreignUuid($uuidable);
+        $property         = "readable_{$uuidable}";
+        $model->$property = $model->foreignUuid($uuidable);
     }
 
     /**
      * Check if UUID can be created from given string.
      *
-     * @param Model $model
+     * @param Model  $model
      * @param string $uuidable
      *
      * @return bool
@@ -78,7 +79,7 @@ trait ForeignBinaryUuidSupportableTrait
     /**
      * Check if UUID can be created from given binary.
      *
-     * @param Model $model
+     * @param Model  $model
      * @param string $uuidable
      *
      * @return bool
@@ -97,7 +98,7 @@ trait ForeignBinaryUuidSupportableTrait
     /**
      * Check if UUID is valid.
      *
-     * @param Model $model
+     * @param Model  $model
      * @param string $uuidable
      *
      * @return bool
