@@ -19,26 +19,100 @@ trait ForeignBinaryUuidSupportableTrait
     public static function bootForeignBinaryUuidSupportableTrait(): void
     {
         static::creating(function (Model $model) {
-            if (is_array($model->uuidable)) {
-                foreach ($model->uuidable as $uuidable) {
-                    if (!isset($model->attributes[$uuidable])) {
-                        continue;
-                    }
+            if (!is_array($model->uuidable)) {
+                return;
+            }
 
-                    if (!is_string($model->attributes[$uuidable])) {
-                        continue;
-                    }
-
-                    if (Uuid::isValid($model->attributes[$uuidable])) {
-                        $model->$uuidable = Uuid::fromString($model->attributes[$uuidable])->getBytes();
-                    }
-
-                    if (strlen($model->attributes[$uuidable]) === 16) {
-                        $model->$uuidable = $model->attributes[$uuidable];
-                    }
+            foreach ($model->uuidable as $uuidable) {
+                if (!static::isUuidValid($model, $uuidable)) {
+                    continue;
                 }
+
+                if (!static::isUuidFromString($model, $uuidable)) {
+                    continue;
+                }
+
+                if (!static::isUuidFromBinary($model, $uuidable)) {
+                    continue;
+                }
+
+                static::setReadableUuid($model, $uuidable);
             }
         });
+    }
+
+    /**
+     * Set readable UUID in model if necessary.
+     *
+     * @param Model $model
+     * @param string $uuidable
+     */
+    private static function setReadableUuid(Model &$model, string $uuidable): void
+    {
+        if (!isset($model->readable) || isset($model->readable) && !$model->readable) {
+            return;
+        }
+
+        $model->readable_{$uuidable} = $model->foreignUuid($uuidable);
+    }
+
+    /**
+     * Check if UUID can be created from given string.
+     *
+     * @param Model $model
+     * @param string $uuidable
+     *
+     * @return bool
+     */
+    private static function isUuidFromString(Model &$model, string $uuidable): bool
+    {
+        if (!Uuid::isValid($model->attributes[$uuidable])) {
+            return false;
+        }
+
+        $model->$uuidable = Uuid::fromString($model->attributes[$uuidable])->getBytes();
+
+        return true;
+    }
+
+    /**
+     * Check if UUID can be created from given binary.
+     *
+     * @param Model $model
+     * @param string $uuidable
+     *
+     * @return bool
+     */
+    private static function isUuidFromBinary(Model &$model, string $uuidable): bool
+    {
+        if (strlen($model->attributes[$uuidable]) !== 16) {
+            return false;
+        }
+
+        $model->$uuidable = $model->attributes[$uuidable];
+
+        return true;
+    }
+
+    /**
+     * Check if UUID is valid.
+     *
+     * @param Model $model
+     * @param string $uuidable
+     *
+     * @return bool
+     */
+    private static function isUuidValid(Model $model, string $uuidable): bool
+    {
+        if (!isset($model->attributes[$uuidable])) {
+            return false;
+        }
+
+        if (!is_string($model->attributes[$uuidable])) {
+            return false;
+        }
+
+        return true;
     }
 
     /**

@@ -71,6 +71,10 @@ trait BinaryUuidSupportableTrait
             } elseif (is_string($model->attributes['uuid']) && strlen($model->attributes['uuid']) === 16) {
                 $model->uuid = $model->attributes['uuid'];
             }
+
+            if (isset($model->readable) && $model->readable) {
+                $model->readable_uuid = $model->uuid();
+            }
         });
     }
 
