@@ -58,6 +58,18 @@ trait BinaryUuidSupportableTrait
     }
 
     /**
+     * Encode given string format UUID to binary one.
+     *
+     * @param string $uuid
+     *
+     * @return string
+     */
+    public static function encodeUuid(string $uuid): string
+    {
+        return Uuid::fromString($uuid)->getBytes();
+    }
+
+    /**
      * Method for Laravel's bootable Eloquent traits, generates UUID for every
      * model automatically.
      */
