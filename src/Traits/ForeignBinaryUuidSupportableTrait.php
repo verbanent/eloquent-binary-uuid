@@ -53,7 +53,7 @@ trait ForeignBinaryUuidSupportableTrait
             return;
         }
 
-        $property         = "readable_{$uuidable}";
+        $property = "readable_{$uuidable}";
         $model->$property = $model->foreignUuid($uuidable);
     }
 
