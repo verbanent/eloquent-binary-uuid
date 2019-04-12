@@ -28,11 +28,7 @@ trait ForeignBinaryUuidSupportableTrait
                     continue;
                 }
 
-                if (!static::isUuidFromString($model, $uuidable)) {
-                    continue;
-                }
-
-                if (!static::isUuidFromBinary($model, $uuidable)) {
+                if (!static::isUuidFromBinary($model, $uuidable) && !static::isUuidFromString($model, $uuidable)) {
                     continue;
                 }
 
