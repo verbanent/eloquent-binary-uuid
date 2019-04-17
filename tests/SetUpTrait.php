@@ -29,6 +29,8 @@ class SetUpTrait extends TestCase
         Capsule::schema()->create('model_test', function ($table) {
             $table->uuid('uuid');
             $table->primary('uuid');
+            $table->uuid('readable_uuid')->nullable();
+            $table->uuid('readable_foreignUuid')->nullable();
             $table->uuid('foreignUuid')->nullable();
             $table->integer('nonString')->nullable();
         });

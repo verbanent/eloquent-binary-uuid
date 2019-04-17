@@ -9,6 +9,7 @@ use Ramsey\Uuid\Builder\DefaultUuidBuilder;
 use Ramsey\Uuid\Codec\OrderedTimeCodec;
 use Ramsey\Uuid\Converter\Number\BigNumberConverter;
 use Ramsey\Uuid\Uuid;
+use Verbanent\Uuid\Exceptions\AccessedUnsetUuidPropertyException;
 
 /**
  * Trait for models with binary UUID.
@@ -114,7 +115,9 @@ trait BinaryUuidSupportableTrait
     public function uuid(): string
     {
         if (!isset($this->uuid)) {
-            $this->uuid = $this->generateUuid();
+            throw new AccessedUnsetUuidPropertyException(
+                'Cannot get UUID property for not saved model'
+            );
         }
 
         return Uuid::fromBytes($this->uuid)->toString();
