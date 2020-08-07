@@ -6,7 +6,6 @@ namespace Verbanent\Uuid\Test\Providers;
 
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Database\MySqlConnection;
-use Illuminate\Support\Facades\DB;
 use Mockery;
 use PHPUnit\Framework\TestCase;
 use Verbanent\Uuid\Providers\BinaryUuidServiceProvider;
