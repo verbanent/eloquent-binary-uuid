@@ -6,3 +6,4 @@ coverage
 .scannerwork
 sonar-project.properties
 vendor
+composer.lock

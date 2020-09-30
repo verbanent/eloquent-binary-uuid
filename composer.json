@@ -38,11 +38,11 @@
     "description": "Ordered binary UUID in Laravel / Eloquent based on UUID version 1",
     "require": {
         "php": "^7.3",
-        "ramsey/uuid": "^3.8"
+        "ramsey/uuid": "^3.8|^4.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "^8",
-        "laravel/framework": "^5.8",
+        "phpunit/phpunit": "^9",
+        "laravel/framework": "^5.8|^6|^7|^8",
         "mockery/mockery": "^1.2"
     },
     "type": "library"

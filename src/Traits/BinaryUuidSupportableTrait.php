@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace Verbanent\Uuid\Traits;
 
+use Exception;
 use Illuminate\Database\Eloquent\Model;
-use Ramsey\Uuid\Builder\DefaultUuidBuilder;
 use Ramsey\Uuid\Codec\OrderedTimeCodec;
-use Ramsey\Uuid\Converter\Number\BigNumberConverter;
 use Ramsey\Uuid\Uuid;
 use Verbanent\Uuid\Exceptions\AccessedUnsetUuidPropertyException;
 
@@ -22,7 +21,7 @@ trait BinaryUuidSupportableTrait
      * @param array $attributes
      * @param array $values
      *
-     * @return \Illuminate\Database\Eloquent\Model
+     * @return Model
      */
     public static function firstOrCreate(array $attributes, array $values = []): Model
     {
@@ -42,23 +41,6 @@ trait BinaryUuidSupportableTrait
     }
 
     /**
-     * Returns time ordered binary UUID version 1, because it's the only version
-     * can be time-ordered.
-     *
-     * @see https://github.com/ramsey/uuid-doctrine/blob/master/src/UuidBinaryOrderedTimeType.php#L151
-     *
-     * @throws \Exception
-     *
-     * @return string
-     */
-    public function generateUuid(): string
-    {
-        $codec = new OrderedTimeCodec(new DefaultUuidBuilder(new BigNumberConverter()));
-
-        return $codec->encodeBinary(Uuid::uuid1());
-    }
-
-    /**
      * Encode given string format UUID to binary one.
      *
      * @param string $uuid
@@ -71,44 +53,49 @@ trait BinaryUuidSupportableTrait
     }
 
     /**
-     * Method for Laravel's bootable Eloquent traits, generates UUID for every
-     * model automatically.
+     * Method for Laravel's bootable Eloquent traits, generates UUID for every model automatically.
+     *
+     * @throws Exception
      */
     public static function bootBinaryUuidSupportableTrait(): void
     {
-        static::creating(function (Model $model) {
-            if (!isset($model->attributes['uuid'])) {
-                $model->uuid = $model->generateUuid();
-            } elseif (Uuid::isValid($model->attributes['uuid'])) {
-                $model->uuid = Uuid::fromString($model->attributes['uuid'])->getBytes();
-            } elseif (is_string($model->attributes['uuid']) && strlen($model->attributes['uuid']) === 16) {
-                $model->uuid = $model->attributes['uuid'];
-            }
+        static::creating(
+            function (Model $model) {
+                /** @var Model|BinaryUuidSupportableTrait $model */
+                if (!isset($model->attributes['uuid'])) {
+                    $model->uuid = $model->generateUuid();
+                } elseif (Uuid::isValid($model->attributes['uuid'])) {
+                    $model->uuid = Uuid::fromString($model->attributes['uuid'])->getBytes();
+                } elseif (is_string($model->attributes['uuid']) && strlen($model->attributes['uuid']) === 16) {
+                    $model->uuid = $model->attributes['uuid'];
+                }
 
-            if (isset($model->readable) && $model->readable) {
-                $model->readable_uuid = $model->uuid();
+                if (isset($model->readable) && $model->readable) {
+                    $model->readable_uuid = $model->uuid();
+                }
             }
-        });
+        );
     }
 
     /**
-     * Returns model by its UUID or fails.
+     * Returns time ordered binary UUID version 1, because it's the only version
+     * can be time-ordered.
      *
-     * @param string $uuid
+     * @see https://github.com/ramsey/uuid-doctrine/blob/master/src/UuidBinaryOrderedTimeType.php#L151
      *
-     * @return \Illuminate\Database\Eloquent\Model
+     * @throws Exception
+     *
+     * @return string
      */
-    public static function find(string $uuid): Model
+    public function generateUuid(): string
     {
-        $binaryUuid = Uuid::fromString($uuid)->getBytes();
-
-        return static::where('uuid', '=', $binaryUuid)->firstOrFail();
+        return (new OrderedTimeCodec(Uuid::getFactory()->getUuidBuilder()))->encodeBinary(Uuid::uuid1());
     }
 
     /**
      * Returns string form of UUID.
      *
-     * @throws \Exception
+     * @throws Exception
      *
      * @return string
      */
@@ -121,5 +108,17 @@ trait BinaryUuidSupportableTrait
         }
 
         return Uuid::fromBytes($this->uuid)->toString();
+    }
+
+    /**
+     * Returns model by its UUID or fails.
+     *
+     * @param string $uuid
+     *
+     * @return Model
+     */
+    public static function find(string $uuid): Model
+    {
+        return static::where('uuid', '=', Uuid::fromString($uuid)->getBytes())->firstOrFail();
     }
 }
