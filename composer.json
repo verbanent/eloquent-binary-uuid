@@ -2,9 +2,7 @@
     "authors": [
         {
             "name": "Radek Ziemniewicz",
-            "email": "radoslaw@ziemniewicz.pl",
-            "homepage": "https://ziemniewicz.eu",
-            "role": "Developer"
+            "email": "open-source@quillstack.com"
         }
     ],
     "autoload": {
@@ -33,7 +31,7 @@
         "ordered",
         "uuid"
     ],
-    "license": "LGPL-3.0-or-later",
+    "license": "MIT",
     "name": "verbanent/eloquent-binary-uuid",
     "description": "Ordered binary UUID in Laravel / Eloquent based on UUID version 1",
     "require": {

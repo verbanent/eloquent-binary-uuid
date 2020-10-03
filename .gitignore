@@ -7,3 +7,5 @@ coverage
 sonar-project.properties
 vendor
 composer.lock
+.scannerwork/
+phpunit.*.xml
