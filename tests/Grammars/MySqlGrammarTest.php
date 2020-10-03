@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Verbanent\Uuid\Test\Grammars;
 
 use PHPUnit\Framework\TestCase;
+use ReflectionException;
+use ReflectionMethod;
 use Verbanent\Uuid\Grammars\MySqlGrammar;
 
 /**
@@ -17,11 +19,10 @@ class MySqlGrammarTest extends TestCase
      *
      * @param string $name
      *
-     * @throws \ReflectionException
-     *
-     * @return \ReflectionMethod
+     * @return ReflectionMethod
+     * @throws ReflectionException
      */
-    protected static function getMethod(string $name): \ReflectionMethod
+    protected static function getMethod(string $name): ReflectionMethod
     {
         $class = new \ReflectionClass(MySqlGrammar::class);
         $method = $class->getMethod($name);
@@ -33,7 +34,7 @@ class MySqlGrammarTest extends TestCase
     /**
      * Test for MySqlGrammar::typeUuid.
      *
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function testTypeUuid(): void
     {
@@ -41,7 +42,7 @@ class MySqlGrammarTest extends TestCase
         $typeUuid = self::getMethod('typeUuid');
         $uuidMySqlType = $typeUuid->invokeArgs($mySqlGrammar, [new \Illuminate\Support\Fluent()]);
 
-        $this->assertIsString($uuidMySqlType, 'Got '.gettype($uuidMySqlType).' instead of string');
-        $this->assertEquals('binary(16)', $uuidMySqlType, 'Got '.$uuidMySqlType.' instead of \'binary(16)\'');
+        $this->assertIsString($uuidMySqlType, 'Got ' . gettype($uuidMySqlType) . ' instead of string');
+        $this->assertEquals('binary(16)', $uuidMySqlType, 'Got ' . $uuidMySqlType . ' instead of \'binary(16)\'');
     }
 }

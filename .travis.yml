@@ -1,0 +1,24 @@
+language: php
+sudo: false
+
+php:
+    - 7.4
+
+cache:
+    directories:
+        - $HOME/.composer/cache
+
+addons:
+    sonarcloud:
+        organization: "verbanent-public"
+        token:
+            secure: "flumy3jpJ+Je/oYe+CglzMCEMJurdOvPOxAkBm6q60vPxgpMTsF9bHuGxxBEuBGleCwqJGArbmctmslPzwpcAkyB39Yy3YuOowwqeT3wmi8Phl7/2vPLKnAlY6Npc6OLi43b8zaufuhUl5hfS2feVxlSaZtbXEvCuajmsZNpDId/nIEPkzH7Wv1tYHAStWUOav8wumB+ej/IRzQFsjvJoKFnGlJm9tsBf+5vq9RXTgcwV88DHOGdgWTyUVU8SUmH99VQ7m4kfiuyQohrjnj5E+CKsOnDY0DGrgchzJnqK2h5xaexgdPGCPLdWu23MS+iamJMA6knVmFcUjzzhFwcVo33EY1ZMHWk4I0sI8xHrENOmfJ83+7AC2fDwJseLqUD18h4HMd5lnFyVdXbJrFOzVmdrAWTUenDXJx6ZMlIfBOFoBOt3k+DfI7UgtW6+KLL+b0d7LjQNdpkwmieYGKbsGm0QsKeytPUpPg8OrpieJZ4LADu69cuHcpB5ZifijKx8mM3CONxi2YYJ/Rro9t9W5Shk1N9ww60uRHlHpyeDFZEtFTXHTFnVhcmPfuaWdoJjPLo8iNNI2FD4YSUOYXHNfr1r165znwF+3KbVFaaxciZfWyordZUSgknFMomRFOM3H5bVnncsgsnZ+HYBon/NUgbK2Z9fWN++jfgLAQekrk="
+
+git:
+    depth: false
+
+install: composer update --no-interaction --no-suggest --no-progress
+
+script:
+    - phpdbg -qrr vendor/bin/phpunit  --coverage-clover phpunit.coverage.xml --log-junit phpunit.report.xml
+

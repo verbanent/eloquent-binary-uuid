@@ -1,0 +1,7 @@
+risky: false
+version: 7
+preset: psr12
+finder:
+    exclude:
+        - "vendor"
+    name: "*.php"
