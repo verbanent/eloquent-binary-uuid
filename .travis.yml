@@ -21,4 +21,5 @@ install: composer update --no-interaction --no-suggest --no-progress
 
 script:
     - phpdbg -qrr vendor/bin/phpunit  --coverage-clover phpunit.coverage.xml --log-junit phpunit.report.xml
-    - sonar-scanner
+    - sonar-scanner -Dsonar.organization=verbanent-public -Dsonar.projectKey=verbanent_eloquent-binary-uuid -Dsonar.sources=src -Dsonar.host.url=https://sonarcloud.io
+
