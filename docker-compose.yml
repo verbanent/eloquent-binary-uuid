@@ -1,0 +1,9 @@
+version: "3.3"
+services:
+    php:
+        build: .
+        container_name: php
+        restart: unless-stopped
+        volumes:
+            - .:/var/www/html
+            - ./docker/xdebug-local.ini:/usr/local/etc/php/conf.d/xdebug-local.ini
