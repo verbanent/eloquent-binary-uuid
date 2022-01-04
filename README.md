@@ -67,8 +67,7 @@ class Book extends Model
 {
     use BinaryUuidSupportableTrait;
 
-    protected $primaryKey = 'uuid';
-    protected $fillable = ['uuid'];
+    public $uuidColumn = 'uuid';
 }
 ```
 
@@ -92,6 +91,7 @@ use Verbanent\Uuid\AbstractModel;
 
 class Lang extends AbstractModel
 {
+    public $uuidColumn = 'uuid';
     protected $primaryKey = 'uuid';
     protected $fillable = ['uuid'];
 }
