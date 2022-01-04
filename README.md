@@ -57,6 +57,21 @@ class Book extends Model
 }
 ```
 
+The above example works for the column `id`. If you use custom name for UUID column, you need to define it:
+
+```php
+use Illuminate\Database\Eloquent\Model;
+use Verbanent\Uuid\Traits\BinaryUuidSupportableTrait;
+
+class Book extends Model
+{
+    use BinaryUuidSupportableTrait;
+
+    protected $primaryKey = 'uuid';
+    protected $fillable = ['uuid'];
+}
+```
+
 #### Abstract model for model with UUID
 
 For your convenience you can extend your model with _AbstractModel_:
@@ -67,6 +82,18 @@ use Verbanent\Uuid\AbstractModel;
 class Lang extends AbstractModel
 {
     //
+}
+```
+
+The above example works for the column `id`. If you use custom name for UUID column, you need to define it:
+
+```php
+use Verbanent\Uuid\AbstractModel;
+
+class Lang extends AbstractModel
+{
+    protected $primaryKey = 'uuid';
+    protected $fillable = ['uuid'];
 }
 ```
 
