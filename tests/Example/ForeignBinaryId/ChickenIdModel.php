@@ -2,19 +2,19 @@
 
 declare(strict_types=1);
 
-namespace Verbanent\Uuid\Test\Example\ForeignBinary;
+namespace Verbanent\Uuid\Test\Example\ForeignBinaryId;
 
-use Verbanent\Uuid\Test\Example\AbstractExampleModel;
+use Verbanent\Uuid\Test\Example\AbstractExampleIdModel;
 use Verbanent\Uuid\Traits\ForeignBinaryUuidSupportableTrait;
 
 /**
  * Chicken model.
  */
-class ChickenModel extends AbstractExampleModel
+class ChickenIdModel extends AbstractExampleIdModel
 {
     use ForeignBinaryUuidSupportableTrait;
 
-    protected $fillable = ['uuid', 'foreignUuid'];
+    protected $fillable = ['id', 'foreignUuid'];
 
     private $uuidable = ['foreignUuid'];
 }

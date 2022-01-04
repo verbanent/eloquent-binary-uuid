@@ -5,18 +5,18 @@ declare(strict_types=1);
 namespace Verbanent\Uuid\Test\Traits;
 
 use Verbanent\Uuid\Exceptions\AccessedUnsetUuidPropertyException;
-use Verbanent\Uuid\Test\Example\Binary\CatUuidModel;
-use Verbanent\Uuid\Test\Example\Binary\CowUuidModel;
-use Verbanent\Uuid\Test\Example\Binary\DogUuidModel;
-use Verbanent\Uuid\Test\Example\Binary\HorseUuidModel;
-use Verbanent\Uuid\Test\Example\Binary\PigUuidModel;
+use Verbanent\Uuid\Test\Example\BinaryId\CatIdModel;
+use Verbanent\Uuid\Test\Example\BinaryId\CowIdModel;
+use Verbanent\Uuid\Test\Example\BinaryId\DogIdModel;
+use Verbanent\Uuid\Test\Example\BinaryId\HorseIdModel;
+use Verbanent\Uuid\Test\Example\BinaryId\PigIdModel;
 use Verbanent\Uuid\Test\SetUpTrait;
 
-class BinaryUuidSupportableTraitTest extends SetUpTrait
+class BinaryIdSupportableTraitTest extends SetUpTrait
 {
     public function testNotEmptyTable()
     {
-        $cat = new CatUuidModel();
+        $cat = new CatIdModel();
         $cat->save();
         $uuid = $cat->uuid();
         $this->assertNotEmpty($cat->uuid());
@@ -25,45 +25,45 @@ class BinaryUuidSupportableTraitTest extends SetUpTrait
 
     public function testSetOwnUuidAsProperty()
     {
-        $dog = new DogUuidModel();
-        $dog->uuid = $this->uuid;
+        $dog = new DogIdModel();
+        $dog->id = $this->id;
         $dog->save();
-        $this->assertEquals($this->uuid, $dog->uuid());
+        $this->assertEquals($this->id, $dog->uuid());
     }
 
     public function testSetOwnBinaryUuidAsProperty()
     {
-        $cow = new CowUuidModel();
-        $cow->uuid = $this->binaryUuid;
+        $cow = new CowIdModel();
+        $cow->id = $this->binaryUuid;
         $cow->save();
-        $this->assertEquals($this->uuid, $cow->uuid());
+        $this->assertEquals($this->id, $cow->uuid());
     }
 
     public function testFirstOrCreate()
     {
-        $cow = CowUuidModel::firstOrCreate(['uuid' => $this->uuid]);
+        $cow = CowIdModel::firstOrCreate(['id' => $this->id]);
         $this->assertNotEmpty($cow->uuid());
-        $this->assertEquals($this->uuid, $cow->uuid());
+        $this->assertEquals($this->id, $cow->uuid());
     }
 
     public function testReadableUuid()
     {
-        $pig = new PigUuidModel();
-        $pig->uuid = $this->uuid;
+        $pig = new PigIdModel();
+        $pig->id = $this->id;
         $pig->save();
-        $this->assertEquals($this->uuid, $pig->uuid());
+        $this->assertEquals($this->id, $pig->uuid());
     }
 
     public function testUuidNotSetButTryToGet()
     {
         $this->expectException(AccessedUnsetUuidPropertyException::class);
-        $horse = new HorseUuidModel();
+        $horse = new HorseIdModel();
         $this->assertNotNull($horse->uuid());
     }
 
     public function testEncodeUuid()
     {
-        $binaryUuid = HorseUuidModel::encodeUuid($this->uuid);
+        $binaryUuid = HorseIdModel::encodeUuid($this->id);
         $this->assertEquals($this->binaryUuid, $binaryUuid);
     }
 }

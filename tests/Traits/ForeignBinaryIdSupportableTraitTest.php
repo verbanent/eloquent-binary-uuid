@@ -5,23 +5,23 @@ declare(strict_types=1);
 namespace Verbanent\Uuid\Test\Traits;
 
 use Illuminate\Database\Eloquent\Collection;
-use Verbanent\Uuid\Test\Example\ForeignBinary\ChickenUuidModel;
-use Verbanent\Uuid\Test\Example\ForeignBinary\DuckUuidModel;
-use Verbanent\Uuid\Test\Example\ForeignBinary\MouseUuidModel;
-use Verbanent\Uuid\Test\Example\ForeignBinary\RabbitUuidModel;
-use Verbanent\Uuid\Test\Example\ForeignBinary\SnakeUuidModel;
+use Verbanent\Uuid\Test\Example\ForeignBinaryId\ChickenIdModel;
+use Verbanent\Uuid\Test\Example\ForeignBinaryId\DuckIdModel;
+use Verbanent\Uuid\Test\Example\ForeignBinaryId\MouseIdModel;
+use Verbanent\Uuid\Test\Example\ForeignBinaryId\RabbitIdModel;
+use Verbanent\Uuid\Test\Example\ForeignBinaryId\SnakeIdModel;
 use Verbanent\Uuid\Test\SetUpTrait;
 
-class ForeignBinaryUuidSupportableTraitTest extends SetUpTrait
+class ForeignBinaryIdSupportableTraitTest extends SetUpTrait
 {
     public function testCreatingModelWithBinaryForeignUuid()
     {
-        ChickenUuidModel::create([
-            'uuid'        => $this->uuid,
+        ChickenIdModel::create([
+            'id'        => $this->uuid,
             'foreignUuid' => $this->binaryUuid,
         ]);
 
-        $foundCollection = ChickenUuidModel::findByUuid('foreignUuid', $this->uuid);
+        $foundCollection = ChickenIdModel::findByUuid('foreignUuid', $this->uuid);
         $this->assertTrue($foundCollection instanceof Collection);
         $this->assertEquals(1, count($foundCollection));
         $this->assertEquals($this->uuid, $foundCollection[0]->foreignUuid('foreignUuid'));
@@ -29,13 +29,13 @@ class ForeignBinaryUuidSupportableTraitTest extends SetUpTrait
 
     public function testCreatingModelWithStringForeignUuid()
     {
-        $duck = new DuckUuidModel();
-        $duck->uuid = $this->uuid;
+        $duck = new DuckIdModel();
+        $duck->id = $this->id;
         $duck->foreignUuid = $this->uuid;
         $duck->nonString = 3;
         $duck->save();
 
-        $foundCollection = DuckUuidModel::findByUuid('foreignUuid', $this->uuid);
+        $foundCollection = DuckIdModel::findByUuid('foreignUuid', $this->uuid);
         $this->assertTrue($foundCollection instanceof Collection);
         $this->assertEquals(1, count($foundCollection));
         $this->assertEquals($this->uuid, $duck->foreignUuid('foreignUuid'));
@@ -43,19 +43,19 @@ class ForeignBinaryUuidSupportableTraitTest extends SetUpTrait
 
     public function testUuidableIsNotArray()
     {
-        $mouse = new MouseUuidModel();
+        $mouse = new MouseIdModel();
         $mouse->save();
         $this->assertIsString($mouse->uuid());
     }
 
     public function testReadableForeignUuid()
     {
-        RabbitUuidModel::create([
-            'uuid'        => $this->uuid,
+        RabbitIdModel::create([
+            'id'        => $this->uuid,
             'foreignUuid' => $this->uuid,
         ]);
 
-        $rabbit = RabbitUuidModel::find($this->uuid);
+        $rabbit = RabbitIdModel::find($this->uuid);
         $this->assertIsString($rabbit->uuid());
         $this->assertEquals($this->uuid, $rabbit->uuid());
         $this->assertEquals($this->uuid, $rabbit->foreignUuid('foreignUuid'));
@@ -64,7 +64,7 @@ class ForeignBinaryUuidSupportableTraitTest extends SetUpTrait
     public function testInvalidUuidInUuidable()
     {
         $incorrectUuid = 'incorrect-uuid-string';
-        $snake = new SnakeUuidModel();
+        $snake = new SnakeIdModel();
         $snake->foreignUuid = $incorrectUuid;
         $snake->save();
 

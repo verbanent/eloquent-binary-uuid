@@ -118,7 +118,7 @@ trait ForeignBinaryUuidSupportableTrait
      * @param string $columnName
      * @param string $uuid
      *
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @return Collection
      */
     public static function findByUuid(string $columnName, string $uuid): Collection
     {
