@@ -30,6 +30,14 @@ Your model will use an ordered binary UUID, if you prepare a migration:
 
 ```php
 Schema::create('table_name', function (Blueprint $table) {
+    $table->uuid('id');
+});
+```
+
+Or if you want to use a custom column name for the primary key:
+
+```php
+Schema::create('table_name', function (Blueprint $table) {
     $table->uuid('uuid');
     $table->primary('uuid');
 });
@@ -58,7 +66,7 @@ use Verbanent\Uuid\AbstractModel;
 
 class Lang extends AbstractModel
 {
-
+    //
 }
 ```
 
@@ -95,6 +103,11 @@ dd($book->uuid());
 or use a property, if you need a binary value:
 
 ```php
+# If you use the default primary key:
+dd($book->id);
+// Output: b"\x11éGù¡½øDˆØ`0ÔƒÅþ"
+
+# If you use `uuid` as a primary key:
 dd($book->uuid);
 // Output: b"\x11éGù¡½øDˆØ`0ÔƒÅþ"
 ```
@@ -131,9 +144,23 @@ dd($translation->foreignUuid('lang'));
 // Output: "11e947f9-a1bd-f844-88d8-6030d483c5fe"
 ```
 
-Because trying to have an access to the property directly will print binary form of UUID: 
+Because trying to have access to the property directly will print binary form of UUID: 
 
 ```php
 dd($translation->lang);
 // Output: b"\x11éGù¡½øDˆØ`0ÔƒÅþ"
+```
+
+## Unit tests
+
+Run this command if you want to check unit tests:
+
+```shell
+./vendor/bin/phpunit
+```
+
+Or if you want to check code coverage:
+
+```shell
+phpdbg -qrr vendor/bin/phpunit --coverage-html coverage tests
 ```
