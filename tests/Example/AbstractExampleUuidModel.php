@@ -9,14 +9,14 @@ use Verbanent\Uuid\AbstractModel;
 /**
  * Example class for traits tests.
  */
-class AbstractExampleModel extends AbstractModel
+class AbstractExampleUuidModel extends AbstractModel
 {
     /**
      * Table name.
      *
      * @var string
      */
-    protected $table = 'model_test';
+    protected $table = 'model_test_uuid';
 
     /**
      * Create rows in table without timestamps.
@@ -24,4 +24,18 @@ class AbstractExampleModel extends AbstractModel
      * @var bool
      */
     public $timestamps = false;
+
+    /**
+     * Column name for primary key.
+     *
+     * @var string
+     */
+    protected $primaryKey = 'uuid';
+
+    /**
+     * Allow to fill UUID column.
+     *
+     * @var array
+     */
+    protected $fillable = ['uuid'];
 }

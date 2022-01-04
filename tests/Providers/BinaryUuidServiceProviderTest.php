@@ -15,7 +15,7 @@ class BinaryUuidServiceProviderTest extends TestCase
     /**
      * BinaryUuidServiceProvider instance.
      *
-     * @var \Verbanent\Uuid\Providers\BinaryUuidServiceProvider
+     * @var BinaryUuidServiceProvider
      */
     private $binaryUuidServiceProvider;
 

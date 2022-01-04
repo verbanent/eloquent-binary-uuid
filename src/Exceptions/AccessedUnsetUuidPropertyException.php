@@ -6,4 +6,5 @@ namespace Verbanent\Uuid\Exceptions;
 
 class AccessedUnsetUuidPropertyException extends \RuntimeException
 {
+    //
 }

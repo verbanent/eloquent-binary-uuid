@@ -12,6 +12,7 @@ use Ramsey\Uuid\Uuid;
 
 class SetUpTrait extends TestCase
 {
+    protected $id = '11e9469d-b942-b7e6-bc69-8df4f180e5a9';
     protected $uuid = '11e9469d-b942-b7e6-bc69-8df4f180e5a9';
     protected $binaryUuid;
 
@@ -26,9 +27,18 @@ class SetUpTrait extends TestCase
         $capsule->setAsGlobal();
         $capsule->bootEloquent();
 
-        Capsule::schema()->create('model_test', function ($table) {
+        Capsule::schema()->create('model_test_uuid', function ($table) {
             $table->uuid('uuid');
             $table->primary('uuid');
+            $table->uuid('readable_uuid')->nullable();
+            $table->uuid('readable_foreignUuid')->nullable();
+            $table->uuid('foreignUuid')->nullable();
+            $table->integer('nonString')->nullable();
+        });
+
+        Capsule::schema()->create('model_test_id', function ($table) {
+            $table->uuid('id');
+            $table->primary('id');
             $table->uuid('readable_uuid')->nullable();
             $table->uuid('readable_foreignUuid')->nullable();
             $table->uuid('foreignUuid')->nullable();

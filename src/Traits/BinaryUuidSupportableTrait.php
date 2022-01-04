@@ -61,13 +61,15 @@ trait BinaryUuidSupportableTrait
     {
         static::creating(
             function (Model $model) {
+                $uuid = $model->getKeyName();
+
                 /** @var Model|BinaryUuidSupportableTrait $model */
-                if (!isset($model->attributes['uuid'])) {
-                    $model->uuid = $model->generateUuid();
-                } elseif (Uuid::isValid($model->attributes['uuid'])) {
-                    $model->uuid = Uuid::fromString($model->attributes['uuid'])->getBytes();
-                } elseif (is_string($model->attributes['uuid']) && strlen($model->attributes['uuid']) === 16) {
-                    $model->uuid = $model->attributes['uuid'];
+                if (!isset($model->attributes[$uuid])) {
+                    $model->$uuid = $model->generateUuid();
+                } elseif (Uuid::isValid($model->attributes[$uuid])) {
+                    $model->$uuid = Uuid::fromString($model->attributes[$uuid])->getBytes();
+                } elseif (is_string($model->attributes[$uuid]) && strlen($model->attributes[$uuid]) === 16) {
+                    $model->$uuid = $model->attributes[$uuid];
                 }
 
                 if (isset($model->readable) && $model->readable) {
@@ -101,13 +103,15 @@ trait BinaryUuidSupportableTrait
      */
     public function uuid(): string
     {
-        if (!isset($this->uuid)) {
+        $uuid = $this->getKeyName();
+
+        if (!isset($this->$uuid)) {
             throw new AccessedUnsetUuidPropertyException(
                 'Cannot get UUID property for not saved model'
             );
         }
 
-        return Uuid::fromBytes($this->uuid)->toString();
+        return Uuid::fromBytes($this->$uuid)->toString();
     }
 
     /**
@@ -119,6 +123,8 @@ trait BinaryUuidSupportableTrait
      */
     public static function find(string $uuid): Model
     {
-        return static::where('uuid', '=', Uuid::fromString($uuid)->getBytes())->firstOrFail();
+        $uuidKey = app(static::class)->getKeyName();
+
+        return static::where($uuidKey, '=', Uuid::fromString($uuid)->getBytes())->firstOrFail();
     }
 }
