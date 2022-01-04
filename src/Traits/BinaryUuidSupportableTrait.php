@@ -8,6 +8,7 @@ use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Ramsey\Uuid\Codec\OrderedTimeCodec;
 use Ramsey\Uuid\Uuid;
+use Verbanent\Uuid\AbstractModel;
 use Verbanent\Uuid\Exceptions\AccessedUnsetUuidPropertyException;
 
 /**
@@ -61,7 +62,7 @@ trait BinaryUuidSupportableTrait
     {
         static::creating(
             function (Model $model) {
-                $uuid = $model->getKeyName();
+                $uuid = $model->getUuidColumn();
 
                 /** @var Model|BinaryUuidSupportableTrait $model */
                 if (!isset($model->attributes[$uuid])) {
@@ -103,7 +104,7 @@ trait BinaryUuidSupportableTrait
      */
     public function uuid(): string
     {
-        $uuid = $this->getKeyName();
+        $uuid = $this->getUuidColumn();
 
         if (!isset($this->$uuid)) {
             throw new AccessedUnsetUuidPropertyException(
@@ -115,6 +116,16 @@ trait BinaryUuidSupportableTrait
     }
 
     /**
+     * Return primary UUID column.
+     *
+     * @return string
+     */
+    public function getUuidColumn(): string
+    {
+        return $this->uuidColumn ?? AbstractModel::DEFAULT_UUID_COLUMN;
+    }
+
+    /**
      * Returns model by its UUID or fails.
      *
      * @param string $uuid
@@ -123,7 +134,7 @@ trait BinaryUuidSupportableTrait
      */
     public static function find(string $uuid): Model
     {
-        $uuidKey = app(static::class)->getKeyName();
+        $uuidKey = app(static::class)->getUuidColumn();
 
         return static::where($uuidKey, '=', Uuid::fromString($uuid)->getBytes())->firstOrFail();
     }

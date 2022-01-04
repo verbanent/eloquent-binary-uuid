@@ -26,6 +26,13 @@ class AbstractExampleUuidModel extends AbstractModel
     public $timestamps = false;
 
     /**
+     * The UUID column name.
+     *
+     * @var string
+     */
+    public $uuidColumn = 'uuid';
+
+    /**
      * Column name for primary key.
      *
      * @var string
