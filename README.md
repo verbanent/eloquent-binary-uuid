@@ -2,8 +2,8 @@
 
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=verbanent_eloquent-binary-uuid&metric=alert_status)](https://sonarcloud.io/dashboard?id=verbanent_eloquent-binary-uuid)
 [![Downloads](https://img.shields.io/packagist/dt/verbanent/eloquent-binary-uuid.svg)](https://packagist.org/packages/verbanent/eloquent-binary-uuid)
-[![StyleCI](https://github.styleci.io/repos/285826449/shield?branch=master)](https://github.styleci.io/repos/285826449)
-[![CodeFactor](https://www.codefactor.io/repository/github/verbanent/eloquent-binary-uuid/badge)](https://www.codefactor.io/repository/github/verbanent/eloquent-binary-uuid)
+[![StyleCI](https://github.styleci.io/repos/285826449/shield?branch=main)](https://github.styleci.io/repos/285826449?branch=main)
+[![CodeFactor](https://www.codefactor.io/repository/github/verbanent/eloquent-binary-uuid/badge/main)](https://www.codefactor.io/repository/github/verbanent/eloquent-binary-uuid/overview/main)
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=verbanent_eloquent-binary-uuid&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=verbanent_eloquent-binary-uuid)
 [![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=verbanent_eloquent-binary-uuid&metric=ncloc)](https://sonarcloud.io/dashboard?id=verbanent_eloquent-binary-uuid)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=verbanent_eloquent-binary-uuid&metric=coverage)](https://sonarcloud.io/dashboard?id=verbanent_eloquent-binary-uuid)
