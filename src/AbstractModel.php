@@ -14,7 +14,7 @@ class AbstractModel extends Model
 {
     use BinaryUuidSupportableTrait;
 
-    public const DEFAULT_UUID_COLUMN = 'id';
+    public const DEFAULT_UUID_COLUMN = env('DEFAULT_UUID_COLUMN', 'id');
 
     /**
      * Disable incrementing of ID column.
