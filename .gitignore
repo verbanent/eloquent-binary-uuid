@@ -9,3 +9,4 @@ vendor
 composer.lock
 .scannerwork/
 phpunit.*.xml
+.phpunit.cache

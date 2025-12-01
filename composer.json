@@ -35,12 +35,12 @@
     "name": "verbanent/eloquent-binary-uuid",
     "description": "Ordered binary UUID in Laravel / Eloquent based on UUID version 1",
     "require": {
-        "php": "^7.3|^8",
-        "ramsey/uuid": "^3.8|^4"
+        "php": "^8.2||^8.3",
+        "ramsey/uuid": "^4"
     },
     "require-dev": {
-        "phpunit/phpunit": "^9",
-        "laravel/framework": "^6.20.26|^7|^8|^9|^10",
+        "phpunit/phpunit": "^10|^11",
+        "laravel/framework": "^10|^11|^12",
         "mockery/mockery": "^1"
     },
     "type": "library"
