@@ -4,7 +4,6 @@ coverage
 .phpunit.result.cache
 .idea
 .scannerwork
-sonar-project.properties
 vendor
 composer.lock
 .scannerwork/
