@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Verbanent\Uuid\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use ReflectionClass;
 use Verbanent\Uuid\Grammars\MySqlGrammar;
 
 /**
@@ -23,10 +24,22 @@ class BinaryUuidServiceProvider extends ServiceProvider
 
     private function createGrammar($connection): MySqlGrammar
     {
-        $queryGrammar = $connection->getQueryGrammar();
+        if ($this->doesGrammarRequireConnection()) {
+            return new MySqlGrammar($connection);
+        }
+
+        $prefix = $connection->getTablePrefix();
         $grammar = new MySqlGrammar();
-        $grammar->setTablePrefix($queryGrammar->getTablePrefix());
+        $grammar->setTablePrefix($prefix);
 
         return $grammar;
+    }
+
+    private function doesGrammarRequireConnection(): bool
+    {
+        $reflection = new ReflectionClass(MySqlGrammar::class);
+        $constructor = $reflection->getConstructor();
+
+        return $constructor !== null && $constructor->getNumberOfRequiredParameters() > 0;
     }
 }
