@@ -1,0 +1,23 @@
+name: sonarcloud
+on:
+    push:
+        branches: [ main ]
+    pull_request:
+
+jobs:
+    sonarcloud:
+        runs-on: ubuntu-latest
+        steps:
+            -   uses: actions/checkout@v4
+                with:
+                    fetch-depth: 0
+            -   uses: shivammathur/setup-php@v2
+                with:
+                    php-version: '8.2'
+                    coverage: xdebug
+            -   run: composer install --no-interaction --no-progress --prefer-dist
+            -   run: php -d xdebug.mode=coverage vendor/bin/phpunit --coverage-clover coverage.xml
+            -   uses: SonarSource/sonarcloud-github-action@v2
+                env:
+                    SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+                    GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
