@@ -8,16 +8,16 @@ jobs:
     sonarcloud:
         runs-on: ubuntu-latest
         steps:
-            -   uses: actions/checkout@v4
+            -   uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5
                 with:
                     fetch-depth: 0
-            -   uses: shivammathur/setup-php@v2
+            -   uses: shivammathur/setup-php@44454db4f0199b8b9685a5d763dc37cbf79108e1
                 with:
                     php-version: '8.2'
                     coverage: xdebug
             -   run: composer install --no-interaction --no-progress --prefer-dist
             -   run: php -d xdebug.mode=coverage vendor/bin/phpunit --coverage-clover coverage.xml
-            -   uses: SonarSource/sonarcloud-github-action@v2
+            -   uses: SonarSource/sonarcloud-github-action@e44258b109568baa0df60ed515909fc6c72cba92
                 env:
                     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
                     GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
