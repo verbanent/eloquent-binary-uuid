@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Verbanent\Uuid\Test\Grammars;
 
+use Illuminate\Database\Connection;
+use Mockery;
 use PHPUnit\Framework\TestCase;
 use ReflectionException;
 use ReflectionMethod;
@@ -14,6 +16,8 @@ use Verbanent\Uuid\Grammars\MySqlGrammar;
  */
 class MySqlGrammarTest extends TestCase
 {
+    private $connection;
+
     /**
      * Allows to test private and protected methods.
      *
@@ -31,6 +35,16 @@ class MySqlGrammarTest extends TestCase
         return $method;
     }
 
+    public function setUp(): void
+    {
+        $this->connection = Mockery::mock(Connection::class);
+    }
+
+    protected function tearDown(): void
+    {
+        Mockery::close();
+    }
+
     /**
      * Test for MySqlGrammar::typeUuid.
      *
@@ -38,7 +52,7 @@ class MySqlGrammarTest extends TestCase
      */
     public function testTypeUuid(): void
     {
-        $mySqlGrammar = new MySqlGrammar();
+        $mySqlGrammar = new MySqlGrammar($this->connection);
         $typeUuid = self::getMethod('typeUuid');
         $uuidMySqlType = $typeUuid->invokeArgs($mySqlGrammar, [new \Illuminate\Support\Fluent()]);
 
