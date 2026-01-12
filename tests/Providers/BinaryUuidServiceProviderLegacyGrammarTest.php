@@ -26,7 +26,7 @@ class BinaryUuidServiceProviderLegacyGrammarTest extends TestCase
         );
 
         $provider = new BinaryUuidServiceProvider(Mockery::mock(Application::class));
-        $connection = new class {
+        $connection = new class () {
             public function getTablePrefix(): string
             {
                 return 'legacy_';
