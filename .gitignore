@@ -4,9 +4,9 @@ coverage
 .phpunit.result.cache
 .idea
 .scannerwork
-sonar-project.properties
 vendor
 composer.lock
 .scannerwork/
 phpunit.*.xml
 coverage.xml
+.phpunit.cache
