@@ -7,7 +7,6 @@
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=verbanent_eloquent-binary-uuid&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=verbanent_eloquent-binary-uuid)
 [![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=verbanent_eloquent-binary-uuid&metric=ncloc)](https://sonarcloud.io/dashboard?id=verbanent_eloquent-binary-uuid)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=verbanent_eloquent-binary-uuid&metric=coverage)](https://sonarcloud.io/dashboard?id=verbanent_eloquent-binary-uuid)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/verbanent/eloquent-binary-uuid/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/verbanent/eloquent-binary-uuid/?branch=main)
 ![Packagist Version](https://img.shields.io/packagist/v/verbanent/eloquent-binary-uuid)
 ![Packagist PHP Version Support](https://img.shields.io/packagist/php-v/verbanent/eloquent-binary-uuid)
 ![Packagist License](https://img.shields.io/packagist/l/verbanent/eloquent-binary-uuid)
