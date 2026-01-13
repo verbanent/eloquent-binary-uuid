@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Verbanent\Uuid\Test\Traits;
 
+use Illuminate\Config\Repository;
+use Illuminate\Container\Container;
 use PHPUnit\Framework\TestCase;
 use Verbanent\Uuid\Exceptions\AccessedUnsetUuidPropertyException;
 use Verbanent\Uuid\Test\Example\BinaryId\CatIdModel;
@@ -68,5 +70,22 @@ class BinaryIdSupportableTraitTest extends TestCase
     {
         $binaryUuid = HorseIdModel::encodeUuid($this->id);
         $this->assertEquals($this->binaryUuid, $binaryUuid);
+    }
+
+    public function testDefaultUuidColumnFromConfig()
+    {
+        $previous = Container::getInstance();
+        $container = new Container();
+        $container->instance('config', new Repository([
+            'binary-uuid' => ['default_column' => 'uuid'],
+        ]));
+        Container::setInstance($container);
+
+        try {
+            $model = new CatIdModel();
+            $this->assertSame('uuid', $model->getUuidColumn());
+        } finally {
+            Container::setInstance($previous);
+        }
     }
 }
