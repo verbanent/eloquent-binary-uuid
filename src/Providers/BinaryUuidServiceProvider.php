@@ -63,14 +63,9 @@ class BinaryUuidServiceProvider extends ServiceProvider
             return false;
         }
 
-        if (!method_exists($this->app, 'runningInConsole')) {
-            return false;
-        }
+        $hasMethods = method_exists($this->app, 'runningInConsole')
+            && method_exists($this->app, 'configPath');
 
-        if (!method_exists($this->app, 'configPath')) {
-            return false;
-        }
-
-        return $this->app->runningInConsole();
+        return $hasMethods && $this->app->runningInConsole();
     }
 }
