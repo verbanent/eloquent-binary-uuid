@@ -7,10 +7,9 @@ namespace Verbanent\Uuid\Test;
 use Illuminate\Container\Container;
 use Illuminate\Database\Capsule\Manager as Capsule;
 use Illuminate\Events\Dispatcher;
-use PHPUnit\Framework\TestCase;
 use Ramsey\Uuid\Uuid;
 
-class SetUpTrait extends TestCase
+trait MockTablesAndUuidsTrait
 {
     protected $id = '11e9469d-b942-b7e6-bc69-8df4f180e5a9';
     protected $uuid = '11e9469d-b942-b7e6-bc69-8df4f180e5a9';
@@ -20,7 +19,7 @@ class SetUpTrait extends TestCase
     {
         $capsule = new Capsule();
         $capsule->addConnection([
-            'driver'   => 'sqlite',
+            'driver' => 'sqlite',
             'database' => ':memory:',
         ]);
         $capsule->setEventDispatcher(new Dispatcher(new Container()));
