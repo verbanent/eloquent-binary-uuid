@@ -122,7 +122,7 @@ trait BinaryUuidSupportableTrait
      */
     public function getUuidColumn(): string
     {
-        return $this->uuidColumn ?? AbstractModel::DEFAULT_UUID_COLUMN;
+        return $this->uuidColumn ?? config('binary-uuid.default_column', 'id');
     }
 
     /**

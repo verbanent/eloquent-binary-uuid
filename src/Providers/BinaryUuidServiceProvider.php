@@ -20,6 +20,18 @@ class BinaryUuidServiceProvider extends ServiceProvider
     {
         $connection = app('db')->connection();
         $connection->setSchemaGrammar($this->createGrammar($connection));
+
+        $this->publishes([
+            __DIR__.'/../../config/binary-uuid.php' => config_path('binary-uuid.php'),
+        ], 'binary-uuid-config');
+    }
+
+    public function register(): void
+    {
+        $this->mergeConfigFrom(
+            __DIR__.'/../../config/binary-uuid.php',
+            'binary-uuid'
+        );
     }
 
     private function createGrammar($connection): MySqlGrammar
