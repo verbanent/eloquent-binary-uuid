@@ -24,159 +24,87 @@ Please install the package via Composer:
 composer require verbanent/eloquent-binary-uuid
 ```
 
-### Migration
+## Basic example
 
-Your model will use an ordered binary UUID, if you prepare a migration:
+This example keeps things simple: `Foo` and `Bar` both use UUID primary keys,
+and `Bar.foo_id` references `Foo.id`.
+
+### Migrations
 
 ```php
-Schema::create('table_name', function (Blueprint $table) {
-    $table->uuid('id');
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+Schema::create('foos', function (Blueprint $table) {
+    $table->uuid('id')->primary();
+    $table->string('name')->nullable();
+    $table->timestamps();
+});
+
+Schema::create('bars', function (Blueprint $table) {
+    $table->uuid('id')->primary();
+    $table->uuid('foo_id');
+    $table->string('title')->nullable();
+    $table->timestamps();
+
+    $table->foreign('foo_id')->references('id')->on('foos')->cascadeOnDelete();
 });
 ```
 
-Or if you want to use a custom column name for the primary key:
+### Models
 
 ```php
-Schema::create('table_name', function (Blueprint $table) {
-    $table->uuid('uuid');
-    $table->primary('uuid');
-});
-```
+namespace App\Models;
 
-### Using UUID in models
-
-All what you have to do, is use a new trait in models with UUID as a primary key:
-
-```php
-use Illuminate\Database\Eloquent\Model;
-use Verbanent\Uuid\Traits\BinaryUuidSupportableTrait;
-
-class Book extends Model
-{
-    use BinaryUuidSupportableTrait;
-}
-```
-
-The above example works for the column `id`. If you use custom name for UUID column, you need to define it:
-
-```php
-use Illuminate\Database\Eloquent\Model;
-use Verbanent\Uuid\Traits\BinaryUuidSupportableTrait;
-
-class Book extends Model
-{
-    use BinaryUuidSupportableTrait;
-
-    public $uuidColumn = 'uuid';
-}
-```
-
-#### Abstract model for model with UUID
-
-For your convenience you can extend your model with _AbstractModel_:
-
-```php
 use Verbanent\Uuid\AbstractModel;
 
-class Lang extends AbstractModel
+class Foo extends AbstractModel
 {
-    //
+    protected $fillable = ['name'];
+
+    public function bars()
+    {
+        return $this->hasMany(Bar::class, 'foo_id');
+    }
 }
 ```
 
-The above example works for the column `id`. If you use custom name for UUID column, you need to define it:
-
 ```php
-use Verbanent\Uuid\AbstractModel;
+namespace App\Models;
 
-class Lang extends AbstractModel
-{
-    public $uuidColumn = 'uuid';
-    protected $primaryKey = 'uuid';
-    protected $fillable = ['uuid'];
-}
-```
-
-#### Foreign binary UUID
-
-If you would like to use UUID as a foreign key, use another trait and set _$uuidable_ property for this model:
-
-```php
 use Verbanent\Uuid\AbstractModel;
 use Verbanent\Uuid\Traits\ForeignBinaryUuidSupportableTrait;
 
-class LangTranslation extends AbstractModel
+class Bar extends AbstractModel
 {
-    use ForeignBinaryUuidSupportableTrait;
+    protected $fillable = ['title'];
 
-    private $uuidable = [
-        'lang',
-        'one_lang_bucket',
-    ];
+    public function foo()
+    {
+        return $this->belongsTo(Foo::class, 'foo_id');
+    }
 }
 ```
 
-### Getting a string form of UUID
-
-The library is kept as simple as possible, so if you want to get a string form of UUID, just use a method:
+### Usage
 
 ```php
-$book = new \App\Book;
-$book->save();
-dd($book->uuid());
-// Output: "11e947f9-a1bd-f844-88d8-6030d483c5fe"
+$foo = \App\Models\Foo::create(['name' => 'Alpha']);
+
+$bar = new \App\Models\Bar(['title' => 'Child']);
+$bar->foo()->associate($foo);
+$bar->save();
 ```
 
-or use a property, if you need a binary value:
+## Examples
 
-```php
-# If you use the default primary key:
-dd($book->id);
-// Output: b"\x11éGù¡½øDˆØ`0ÔƒÅþ"
+More scenarios are documented in the `examples/` directory:
 
-# If you use `uuid` as a primary key:
-dd($book->uuid);
-// Output: b"\x11éGù¡½øDˆØ`0ÔƒÅþ"
-```
-
-### Finding by primary UUID
-
-For primary keys finding rows is simple and always return a model:
-
-```php
-$lang = Lang::find('11e947f9-a1bd-f844-88d8-6030d483c5fe');
-dd($lang->uuid());
-// Output: "11e947f9-a1bd-f844-88d8-6030d483c5fe"
-```
-
-### Finding by foreign UUID
-
-For foreign keys finding rows requires a column name and returns collection of model:
-
-```php
-$langTranslation = LangTranslation::findByUuid('lang', '11e947f9-a1bd-f844-88d8-6030d483c5fe');
-dd($langTranslation[0]->uuid(), $langTranslation[1]->uuid(), $langTranslation[2]->uuid());
-// Output: "11e94805-b94c-68e0-8720-6030d483c5fe"
-//         "11e94805-b955-4e2e-b089-6030d483c5fe"
-//         "11e94805-b957-af02-8bf8-6030d483c5fe"
-```
-
-### Getting a foreign UUID string
-
-You can print string form of your foreign UUID keys:
-
-```php
-$translation = LangTranslation::findByUuid('lang', '11e947f9-a1bd-f844-88d8-6030d483c5fe')->first();
-dd($translation->foreignUuid('lang'));
-// Output: "11e947f9-a1bd-f844-88d8-6030d483c5fe"
-```
-
-Because trying to have access to the property directly will print binary form of UUID: 
-
-```php
-dd($translation->lang);
-// Output: b"\x11éGù¡½øDˆØ`0ÔƒÅþ"
-```
+- `examples/01-single-model-uuid-primary-key.md`
+- `examples/02-two-models-uuid-pk-and-fk.md`
+- `examples/03-creating-entities-with-binary-uuid.md`
+- `examples/04-creating-entities-with-string-uuid.md`
+- `examples/05-querying.md`
 
 ## Unit tests
 
