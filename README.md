@@ -107,6 +107,37 @@ More scenarios are documented in the `examples/` directory:
 - `examples/04-creating-entities-with-string-uuid.md`
 - `examples/05-querying.md`
 
+## Configuration
+
+If you want a global default UUID column name, publish the config and set the
+environment variable.
+
+1. Publish the config file:
+
+```bash
+php artisan vendor:publish --provider="Verbanent\\Uuid\\Providers\\BinaryUuidServiceProvider" --tag=binary-uuid-config
+```
+
+2. Set the default column name in `.env`:
+
+```
+BINARY_UUID_DEFAULT_COLUMN=uuid
+```
+
+3. Refresh config:
+
+```bash
+php artisan config:clear
+# or
+php artisan config:cache
+```
+
+Per-model override still works and takes precedence:
+
+```php
+protected $uuidColumn = 'custom_uuid';
+```
+
 ## Unit tests
 
 Run this command if you want to check unit tests:
