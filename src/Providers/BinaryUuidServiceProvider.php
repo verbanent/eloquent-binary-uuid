@@ -20,6 +20,20 @@ class BinaryUuidServiceProvider extends ServiceProvider
     {
         $connection = app('db')->connection();
         $connection->setSchemaGrammar($this->createGrammar($connection));
+
+        if ($this->shouldPublishConfig()) {
+            $this->publishes([
+                __DIR__ . '/../../config/binary-uuid.php' => $this->app->configPath('binary-uuid.php'),
+            ], 'binary-uuid-config');
+        }
+    }
+
+    public function register(): void
+    {
+        $this->mergeConfigFrom(
+            __DIR__ . '/../../config/binary-uuid.php',
+            'binary-uuid'
+        );
     }
 
     private function createGrammar($connection): MySqlGrammar
@@ -41,5 +55,22 @@ class BinaryUuidServiceProvider extends ServiceProvider
         $constructor = $reflection->getConstructor();
 
         return $constructor !== null && $constructor->getNumberOfRequiredParameters() > 0;
+    }
+
+    private function shouldPublishConfig(): bool
+    {
+        if (!is_object($this->app)) {
+            return false;
+        }
+
+        if (!method_exists($this->app, 'runningInConsole')) {
+            return false;
+        }
+
+        if (!method_exists($this->app, 'configPath')) {
+            return false;
+        }
+
+        return $this->app->runningInConsole();
     }
 }

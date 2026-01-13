@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Verbanent\Uuid\Traits;
 
 use Exception;
+use Illuminate\Container\Container;
 use Illuminate\Database\Eloquent\Model;
 use Ramsey\Uuid\Codec\OrderedTimeCodec;
 use Ramsey\Uuid\Uuid;
-use Verbanent\Uuid\AbstractModel;
 use Verbanent\Uuid\Exceptions\AccessedUnsetUuidPropertyException;
 
 /**
@@ -122,7 +122,25 @@ trait BinaryUuidSupportableTrait
      */
     public function getUuidColumn(): string
     {
-        return $this->uuidColumn ?? AbstractModel::DEFAULT_UUID_COLUMN;
+        return $this->uuidColumn ?? $this->resolveDefaultUuidColumn();
+    }
+
+    /**
+     * Resolve default UUID column without requiring a full Laravel app context.
+     */
+    private function resolveDefaultUuidColumn(): string
+    {
+        $container = Container::getInstance();
+
+        if ($container->bound('config')) {
+            $config = $container->make('config');
+
+            if (is_object($config) && method_exists($config, 'get')) {
+                return (string) $config->get('binary-uuid.default_column', 'id');
+            }
+        }
+
+        return 'id';
     }
 
     /**

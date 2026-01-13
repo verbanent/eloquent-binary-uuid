@@ -25,6 +25,7 @@ class BinaryUuidServiceProviderTest extends TestCase
             ->shouldReceive(['connection' => new MySqlConnection('')]);
 
         $app = Mockery::mock(Application::class);
+        $app->shouldReceive('runningInConsole')->andReturn(false);
 
         $this->binaryUuidServiceProvider = new BinaryUuidServiceProvider($app);
     }
