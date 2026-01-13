@@ -4,16 +4,19 @@ declare(strict_types=1);
 
 namespace Verbanent\Uuid\Test\Traits;
 
+use PHPUnit\Framework\TestCase;
 use Verbanent\Uuid\Exceptions\AccessedUnsetUuidPropertyException;
 use Verbanent\Uuid\Test\Example\BinaryId\CatIdModel;
 use Verbanent\Uuid\Test\Example\BinaryId\CowIdModel;
 use Verbanent\Uuid\Test\Example\BinaryId\DogIdModel;
 use Verbanent\Uuid\Test\Example\BinaryId\HorseIdModel;
 use Verbanent\Uuid\Test\Example\BinaryId\PigIdModel;
-use Verbanent\Uuid\Test\SetUpTrait;
+use Verbanent\Uuid\Test\MockTablesAndUuidsTrait;
 
-class BinaryIdSupportableTraitTest extends SetUpTrait
+class BinaryIdSupportableTraitTest extends TestCase
 {
+    use MockTablesAndUuidsTrait;
+
     public function testNotEmptyTable()
     {
         $cat = new CatIdModel();

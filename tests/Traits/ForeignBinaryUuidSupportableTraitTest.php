@@ -5,19 +5,22 @@ declare(strict_types=1);
 namespace Verbanent\Uuid\Test\Traits;
 
 use Illuminate\Database\Eloquent\Collection;
+use PHPUnit\Framework\TestCase;
 use Verbanent\Uuid\Test\Example\ForeignBinary\ChickenUuidModel;
 use Verbanent\Uuid\Test\Example\ForeignBinary\DuckUuidModel;
 use Verbanent\Uuid\Test\Example\ForeignBinary\MouseUuidModel;
 use Verbanent\Uuid\Test\Example\ForeignBinary\RabbitUuidModel;
 use Verbanent\Uuid\Test\Example\ForeignBinary\SnakeUuidModel;
-use Verbanent\Uuid\Test\SetUpTrait;
+use Verbanent\Uuid\Test\MockTablesAndUuidsTrait;
 
-class ForeignBinaryUuidSupportableTraitTest extends SetUpTrait
+class ForeignBinaryUuidSupportableTraitTest extends TestCase
 {
+    use MockTablesAndUuidsTrait;
+
     public function testCreatingModelWithBinaryForeignUuid()
     {
         ChickenUuidModel::create([
-            'uuid'        => $this->uuid,
+            'uuid' => $this->uuid,
             'foreignUuid' => $this->binaryUuid,
         ]);
 
@@ -51,7 +54,7 @@ class ForeignBinaryUuidSupportableTraitTest extends SetUpTrait
     public function testReadableForeignUuid()
     {
         RabbitUuidModel::create([
-            'uuid'        => $this->uuid,
+            'uuid' => $this->uuid,
             'foreignUuid' => $this->uuid,
         ]);
 
