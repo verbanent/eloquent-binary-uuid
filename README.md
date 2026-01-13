@@ -7,12 +7,14 @@
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=verbanent_eloquent-binary-uuid&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=verbanent_eloquent-binary-uuid)
 [![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=verbanent_eloquent-binary-uuid&metric=ncloc)](https://sonarcloud.io/dashboard?id=verbanent_eloquent-binary-uuid)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=verbanent_eloquent-binary-uuid&metric=coverage)](https://sonarcloud.io/dashboard?id=verbanent_eloquent-binary-uuid)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/verbanent/eloquent-binary-uuid/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/verbanent/eloquent-binary-uuid/?branch=main)
+![Packagist Version](https://img.shields.io/packagist/v/verbanent/eloquent-binary-uuid)
 ![Packagist PHP Version Support](https://img.shields.io/packagist/php-v/verbanent/eloquent-binary-uuid)
 ![Packagist License](https://img.shields.io/packagist/l/verbanent/eloquent-binary-uuid)
 
 Based on articles about the optimization of UUID storage in databases, I decided to write a simple library that allows this in my projects. I based on the information available here:  
 https://www.percona.com/blog/2014/12/19/store-uuid-optimized-way/  
-https://www.percona.com/community-blog/2018/10/12/generating-identifiers-auto_increment-sequence/
+https://percona.community/blog/2018/10/12/generating-identifiers-auto_increment-sequence/
 
 The package currently only supports MySQL.
 

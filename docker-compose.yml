@@ -1,9 +1,0 @@
-version: "3.3"
-services:
-    ebu_php:
-        build: .
-        container_name: ebu_php
-        restart: unless-stopped
-        tty: true
-        volumes:
-            - .:/var/www/html

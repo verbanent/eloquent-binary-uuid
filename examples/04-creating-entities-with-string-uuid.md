@@ -1,4 +1,4 @@
-# Creating entities
+# Creating entities with string UUID
 
 This example shows how to create records with string UUIDs.
 

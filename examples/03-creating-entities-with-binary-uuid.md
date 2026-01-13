@@ -1,4 +1,4 @@
-# Creating entities
+# Creating entities with binary UUID
 
 This example shows how to create records with binary UUIDs and how to handle
 foreign keys.
