@@ -42,7 +42,7 @@ class AbstractModel extends Model
     {
         // Set default UUID column from config if not already set
         if (!isset($this->uuidColumn)) {
-            $this->uuidColumn = config('binary-uuid.default_column', 'id');
+            $this->uuidColumn = $this->resolveDefaultUuidColumn();
         }
 
         parent::__construct($attributes);

@@ -21,9 +21,11 @@ class BinaryUuidServiceProvider extends ServiceProvider
         $connection = app('db')->connection();
         $connection->setSchemaGrammar($this->createGrammar($connection));
 
-        $this->publishes([
-            __DIR__ . '/../../config/binary-uuid.php' => config_path('binary-uuid.php'),
-        ], 'binary-uuid-config');
+        if ($this->shouldPublishConfig()) {
+            $this->publishes([
+                __DIR__ . '/../../config/binary-uuid.php' => $this->app->configPath('binary-uuid.php'),
+            ], 'binary-uuid-config');
+        }
     }
 
     public function register(): void
@@ -53,5 +55,22 @@ class BinaryUuidServiceProvider extends ServiceProvider
         $constructor = $reflection->getConstructor();
 
         return $constructor !== null && $constructor->getNumberOfRequiredParameters() > 0;
+    }
+
+    private function shouldPublishConfig(): bool
+    {
+        if (!is_object($this->app)) {
+            return false;
+        }
+
+        if (!method_exists($this->app, 'runningInConsole')) {
+            return false;
+        }
+
+        if (!method_exists($this->app, 'configPath')) {
+            return false;
+        }
+
+        return $this->app->runningInConsole();
     }
 }
