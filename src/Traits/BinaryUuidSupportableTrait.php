@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 use Ramsey\Uuid\Codec\OrderedTimeCodec;
 use Ramsey\Uuid\Uuid;
 use Verbanent\Uuid\Exceptions\AccessedUnsetUuidPropertyException;
+use Verbanent\Uuid\Exceptions\InvalidBinaryUuidException;
 
 /**
  * Trait for models with binary UUID.
@@ -63,14 +64,17 @@ trait BinaryUuidSupportableTrait
         static::creating(
             function (Model $model) {
                 $uuid = $model->getUuidColumn();
+                $value = $model->attributes[$uuid] ?? null;
 
                 /** @var Model|BinaryUuidSupportableTrait $model */
-                if (!isset($model->attributes[$uuid])) {
+                if ($value === null) {
                     $model->$uuid = $model->generateUuid();
-                } elseif (Uuid::isValid($model->attributes[$uuid])) {
-                    $model->$uuid = Uuid::fromString($model->attributes[$uuid])->getBytes();
-                } elseif (is_string($model->attributes[$uuid]) && strlen($model->attributes[$uuid]) === 16) {
-                    $model->$uuid = $model->attributes[$uuid];
+                } elseif (is_string($value) && Uuid::isValid($value)) {
+                    $model->$uuid = Uuid::fromString($value)->getBytes();
+                } elseif (is_string($value) && strlen($value) === 16) {
+                    $model->$uuid = $value;
+                } else {
+                    throw InvalidBinaryUuidException::forAssignedValue(get_class($model), $uuid, $value);
                 }
 
                 if (isset($model->readable) && $model->readable) {
@@ -98,6 +102,8 @@ trait BinaryUuidSupportableTrait
     /**
      * Returns string form of UUID.
      *
+     * @throws AccessedUnsetUuidPropertyException
+     * @throws InvalidBinaryUuidException
      * @throws Exception
      *
      * @return string
@@ -107,12 +113,20 @@ trait BinaryUuidSupportableTrait
         $uuid = $this->getUuidColumn();
 
         if (!isset($this->$uuid)) {
-            throw new AccessedUnsetUuidPropertyException(
-                'Cannot get UUID property for not saved model'
-            );
+            throw new AccessedUnsetUuidPropertyException(sprintf(
+                'Cannot get UUID from column "%s" for not saved model %s',
+                $uuid,
+                static::class
+            ));
         }
 
-        return Uuid::fromBytes($this->$uuid)->toString();
+        $value = $this->$uuid;
+
+        if (!is_string($value) || strlen($value) !== 16) {
+            throw InvalidBinaryUuidException::forColumn(static::class, $uuid, $value);
+        }
+
+        return Uuid::fromBytes($value)->toString();
     }
 
     /**

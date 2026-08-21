@@ -7,6 +7,7 @@ namespace Verbanent\Uuid\Traits;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Ramsey\Uuid\Uuid;
+use Verbanent\Uuid\Exceptions\InvalidBinaryUuidException;
 
 /**
  * Trait for models with binary UUID in other columns than just a primary key.
@@ -132,10 +133,18 @@ trait ForeignBinaryUuidSupportableTrait
      *
      * @param string $columnName
      *
+     * @throws InvalidBinaryUuidException
+     *
      * @return string
      */
     public function foreignUuid(string $columnName): string
     {
-        return Uuid::fromBytes($this->$columnName)->toString();
+        $value = $this->$columnName;
+
+        if (!is_string($value) || strlen($value) !== 16) {
+            throw InvalidBinaryUuidException::forColumn(static::class, $columnName, $value);
+        }
+
+        return Uuid::fromBytes($value)->toString();
     }
 }

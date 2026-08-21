@@ -6,11 +6,14 @@ namespace Verbanent\Uuid\Test\Traits;
 
 use PHPUnit\Framework\TestCase;
 use Verbanent\Uuid\Exceptions\AccessedUnsetUuidPropertyException;
+use Verbanent\Uuid\Exceptions\InvalidBinaryUuidException;
 use Verbanent\Uuid\Test\Example\Binary\CatUuidModel;
 use Verbanent\Uuid\Test\Example\Binary\CowUuidModel;
 use Verbanent\Uuid\Test\Example\Binary\DogUuidModel;
+use Verbanent\Uuid\Test\Example\Binary\GoatUuidModel;
 use Verbanent\Uuid\Test\Example\Binary\HorseUuidModel;
 use Verbanent\Uuid\Test\Example\Binary\PigUuidModel;
+use Verbanent\Uuid\Test\Example\Binary\SheepUuidModel;
 use Verbanent\Uuid\Test\MockTablesAndUuidsTrait;
 
 class BinaryUuidSupportableTraitTest extends TestCase
@@ -68,5 +71,45 @@ class BinaryUuidSupportableTraitTest extends TestCase
     {
         $binaryUuid = HorseUuidModel::encodeUuid($this->uuid);
         $this->assertEquals($this->binaryUuid, $binaryUuid);
+    }
+
+    public function testUuidColumnHoldsSomethingElse()
+    {
+        $horse = new HorseUuidModel();
+        $horse->setRawAttributes(['uuid' => 'uuid']);
+
+        $this->expectException(InvalidBinaryUuidException::class);
+        $this->expectExceptionMessage('does not contain a 16-byte binary UUID (found a 4-byte string)');
+        $horse->uuid();
+    }
+
+    public function testUuidColumnHoldsUuidInStringForm()
+    {
+        $horse = new HorseUuidModel();
+        $horse->setRawAttributes(['uuid' => $this->uuid]);
+
+        $this->expectException(InvalidBinaryUuidException::class);
+        $this->expectExceptionMessage('found a UUID in string form');
+        $horse->uuid();
+    }
+
+    public function testSetNotAnUuidAsProperty()
+    {
+        $sheep = new SheepUuidModel();
+        $sheep->uuid = 'not-an-uuid';
+
+        $this->expectException(InvalidBinaryUuidException::class);
+        $this->expectExceptionMessage('Cannot store the value assigned to column "uuid"');
+        $sheep->save();
+    }
+
+    public function testSetNonStringAsProperty()
+    {
+        $goat = new GoatUuidModel();
+        $goat->uuid = 3;
+
+        $this->expectException(InvalidBinaryUuidException::class);
+        $this->expectExceptionMessage('found a value of type integer');
+        $goat->save();
     }
 }

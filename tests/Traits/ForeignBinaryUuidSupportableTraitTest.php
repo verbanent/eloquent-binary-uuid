@@ -11,6 +11,7 @@ use Verbanent\Uuid\Test\Example\ForeignBinary\DuckUuidModel;
 use Verbanent\Uuid\Test\Example\ForeignBinary\MouseUuidModel;
 use Verbanent\Uuid\Test\Example\ForeignBinary\RabbitUuidModel;
 use Verbanent\Uuid\Test\Example\ForeignBinary\SnakeUuidModel;
+use Verbanent\Uuid\Exceptions\InvalidBinaryUuidException;
 use Verbanent\Uuid\Test\MockTablesAndUuidsTrait;
 
 class ForeignBinaryUuidSupportableTraitTest extends TestCase
@@ -72,5 +73,15 @@ class ForeignBinaryUuidSupportableTraitTest extends TestCase
         $snake->save();
 
         $this->assertEquals($incorrectUuid, $snake->foreignUuid);
+    }
+
+    public function testForeignUuidColumnHoldsSomethingElse()
+    {
+        $duck = new DuckUuidModel();
+        $duck->setRawAttributes(['foreignUuid' => 'nope']);
+
+        $this->expectException(InvalidBinaryUuidException::class);
+        $this->expectExceptionMessage('Column "foreignUuid"');
+        $duck->foreignUuid('foreignUuid');
     }
 }

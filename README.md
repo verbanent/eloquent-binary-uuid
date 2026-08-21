@@ -138,6 +138,23 @@ Per-model override still works and takes precedence:
 protected $uuidColumn = 'custom_uuid';
 ```
 
+## Troubleshooting
+
+When the package reads a column that does not hold a binary UUID, it says so
+directly instead of letting `ramsey/uuid` fail on the raw value:
+
+```
+Column "id" on App\Models\Category does not contain a 16-byte binary UUID
+(found a 4-byte string). Point $uuidColumn on the model, or
+binary-uuid.default_column, at the column holding the binary UUID.
+```
+
+UUIDs are stored as 16 raw bytes, so the column the package reads has to be the
+binary one — set it per model with `protected $uuidColumn = 'uuid';` or globally
+with `BINARY_UUID_DEFAULT_COLUMN`. Assigning a value that is neither a UUID in
+string form nor 16 raw bytes throws `InvalidBinaryUuidException` while the model
+is being created, instead of writing it to the database.
+
 ## Unit tests
 
 Run this command if you want to check unit tests:
