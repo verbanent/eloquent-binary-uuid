@@ -41,7 +41,7 @@ class InvalidBinaryUuidException extends \RuntimeException
     {
         return new self(sprintf(
             'Cannot store the value assigned to column "%s" on %s: a UUID in string form '
-            .'or 16 raw bytes is expected, found %s.',
+            . 'or 16 raw bytes is expected, found %s.',
             $column,
             $model,
             self::describe($value)
@@ -82,6 +82,6 @@ class InvalidBinaryUuidException extends \RuntimeException
         }
 
         return 'Point $uuidColumn on the model, or binary-uuid.default_column, '
-            .'at the column holding the binary UUID.';
+            . 'at the column holding the binary UUID.';
     }
 }
