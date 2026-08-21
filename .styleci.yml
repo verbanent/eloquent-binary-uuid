@@ -1,5 +1,5 @@
 risky: false
-version: 7
+version: 8.1
 preset: psr12
 finder:
     exclude:
